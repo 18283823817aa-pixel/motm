@@ -1,0 +1,1463 @@
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>斗罗大陆·启魂录</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#080810;--bg2:#0e0e1a;--bg3:#161625;--bg4:#1e1e30;
+--gold:#c9a84c;--goldL:#e8d48b;--goldD:#8a6d2b;--goldG:rgba(201,168,76,.12);
+--red:#c0392b;--redD:#8b2020;
+--txt:#e8e0d0;--txt2:#a09880;--txt3:#605848;
+--bdr:#252538;--bdrG:rgba(201,168,76,.25);
+--fs:15px;--ff:'Noto Serif SC',serif;
+--glow:0 0 20px rgba(201,168,76,.15);
+}
+body.t-ink{--bg:#f5f0e6;--bg2:#ede5d5;--bg3:#faf5eb;--bg4:#f0e8d5;--txt:#2c2416;--txt2:#6b5d4d;--txt3:#a09078;--bdr:#d4c8b0;--bdrG:rgba(139,109,43,.25)}
+body.t-cyber{--bg:#06001a;--bg2:#0e0030;--bg3:#180048;--bg4:#220060;--gold:#00e8ff;--goldL:#80f8ff;--goldD:#0090a0;--bdr:#2a0060;--bdrG:rgba(0,232,255,.2)}
+body.t-blood{--bg:#0c0404;--bg2:#180808;--bg3:#2a0e0e;--bg4:#3a1616;--gold:#e04040;--goldL:#ff8888;--goldD:#a02020;--bdr:#3e1a1a;--bdrG:rgba(224,64,64,.2)}
+body.t-jade{--bg:#040e08;--bg2:#081810;--bg3:#0e2818;--bg4:#143820;--gold:#4caf50;--goldL:#81c784;--goldD:#2e7d32;--bdr:#1a3e2a;--bdrG:rgba(76,175,80,.2)}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--txt);font:var(--fs)/1.65 var(--ff)}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--goldD);border-radius:2px}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden}.screen.active{display:flex}
+/* ---- BTN ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:.55em 1.6em;border:1px solid var(--bdrG);background:var(--goldG);color:var(--gold);font:inherit;font-size:.88em;cursor:pointer;transition:.25s;letter-spacing:.08em;gap:.4em}
+.btn:hover{background:rgba(201,168,76,.18);border-color:var(--gold);box-shadow:var(--glow)}
+.btn.pri{background:rgba(201,168,76,.14);border-color:var(--gold)}.btn.sm{padding:.35em .9em;font-size:.8em}
+.btn.dis{opacity:.35;cursor:not-allowed;pointer-events:none}
+/* ---- COVER ---- */
+#cover{justify-content:center;align-items:center;text-align:center;background:#000}
+#cover .cbg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.55;filter:brightness(.65) saturate(.8)}
+#cover .cc{position:relative;z-index:1}
+#cover h1{font-size:2.2em;color:var(--gold);text-shadow:0 0 40px rgba(201,168,76,.4),0 2px 8px rgba(0,0,0,.6);letter-spacing:.18em;margin-bottom:.2em}
+#cover .sub{color:var(--goldL);font-size:.85em;opacity:.6;margin-bottom:2.2em;letter-spacing:.3em}
+#cover .bg{display:flex;flex-direction:column;gap:.7em;align-items:center}
+#cover .bg .btn{min-width:190px}
+/* ---- API ---- */
+#api-setup{justify-content:center;align-items:center;padding:1.5em}
+.sbox{background:var(--bg3);border:1px solid var(--bdr);padding:1.8em;max-width:420px;width:100%;border-radius:4px}
+.sbox h2{color:var(--gold);text-align:center;margin-bottom:1.2em;font-size:1.2em;letter-spacing:.1em}
+.fg{margin-bottom:.9em}.fg label{display:block;color:var(--txt2);font-size:.8em;margin-bottom:.25em}
+.fg input,.fg select{width:100%;padding:.55em .7em;background:var(--bg2);border:1px solid var(--bdr);color:var(--txt);font:inherit;font-size:.85em;border-radius:2px}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--goldD)}
+.fr{display:flex;gap:.7em;justify-content:center;margin-top:1.3em}
+/* ---- CHAR CREATE ---- */
+#char-create{padding:1.2em;overflow-y:auto;align-items:center}
+.avup{width:90px;height:90px;margin:0 auto .8em;border:2px dashed var(--bdrG);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;background:var(--bg2);transition:.3s}
+.avup:hover{border-color:var(--gold);box-shadow:var(--glow)}
+.avup img{width:100%;height:100%;object-fit:cover}.avup span{color:var(--txt3);font-size:.7em;text-align:center}
+.mtog{display:flex;margin-bottom:1em}.mtog .btn{flex:1;border-radius:0}.mtog .btn.ac{background:rgba(201,168,76,.18);border-color:var(--gold)}
+.rg{display:flex;gap:1em;margin-top:.2em}.rg label{display:flex;align-items:center;gap:.3em;cursor:pointer;color:var(--txt2);font-size:.88em}.rg input{accent-color:var(--gold)}
+/* ---- GAME ---- */
+#game{flex-direction:column}
+#ghd{padding:.45em .8em;background:var(--bg2);border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;min-height:42px}
+.pb{display:flex;align-items:center;gap:.5em}.pb .mav{width:28px;height:28px;border-radius:50%;border:1px solid var(--goldD);object-fit:cover}
+.pb .nm{color:var(--gold);font-size:.85em}.pb .lv{color:var(--txt2);font-size:.75em}
+#gc{flex:1;overflow:hidden;position:relative}
+.tp{position:absolute;inset:0;overflow-y:auto;padding:.8em;display:none;-webkit-overflow-scrolling:touch}.tp.active{display:block}
+#tab-story{display:none;flex-direction:column;overflow:hidden}
+#tab-story.active{display:flex}
+#slog{flex:1;overflow-y:auto;padding-bottom:.5em;-webkit-overflow-scrolling:touch}
+#cpop,#sia{flex-shrink:0}
+/* ---- NAV ---- */
+#gnav{display:flex;background:linear-gradient(to top,var(--bg2),var(--bg3));border-top:1px solid var(--bdr);min-height:52px}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.1em;cursor:pointer;color:var(--txt3);font-size:.65em;padding:.3em 0;transition:.2s;border-top:2px solid transparent;position:relative}
+.ni.ac{color:var(--gold);border-top-color:var(--gold)}.ni.ac::after{content:'';position:absolute;top:-2px;left:20%;right:20%;height:2px;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.ni svg{width:18px;height:18px;fill:currentColor}
+/* ---- STORY ---- */
+#slog{min-height:100px;margin-bottom:.6em;padding-bottom:.5em}
+.se{margin-bottom:.8em;padding:.7em .9em;background:var(--bg3);border-left:2px solid var(--goldD);border-radius:0 3px 3px 0;animation:fi .5s;font-size:.9em;line-height:1.75}
+.se.sys{border-left-color:var(--red);background:rgba(192,57,43,.06);font-size:.82em;color:var(--txt2)}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* Story input area with triangle */
+#sia{display:flex;gap:.4em;align-items:flex-end}
+#si{flex:1;padding:.55em .7em;background:var(--bg2);border:1px solid var(--bdr);color:var(--txt);font:inherit;font-size:.85em;resize:none;min-height:38px;max-height:90px;border-radius:2px}
+#si:focus{outline:none;border-color:var(--goldD)}
+#ctri{width:36px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--bdr);cursor:pointer;color:var(--gold);font-size:.9em;border-radius:2px;flex-shrink:0;transition:.2s}
+#ctri:hover{background:var(--bg4);border-color:var(--gold)}
+#ctri.open{background:var(--goldG);border-color:var(--gold)}
+#cpop{display:none;background:var(--bg3);border:1px solid var(--bdrG);border-radius:4px;padding:.5em;margin-bottom:.5em;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+#cpop.open{display:flex;flex-direction:column;gap:.4em}
+#cpop .cbtn{text-align:left;display:block;width:100%;padding:.55em .8em;background:var(--bg4);border:1px solid var(--bdr);color:var(--txt);font:inherit;font-size:.82em;cursor:pointer;transition:.2s;border-radius:2px;line-height:1.5}
+#cpop .cbtn:hover{border-color:var(--gold);background:var(--goldG);color:var(--gold)}
+#cpop .cbtn .clab{color:var(--gold);font-weight:700;margin-right:.4em}
+#cpop .ctitle{font-size:.72em;color:var(--txt3);text-align:center;padding:.2em 0;letter-spacing:.1em}
+.sld{text-align:center;color:var(--txt3);padding:.8em}.sld .dt span{animation:bk 1.4s infinite;font-size:1.1em}.sld .dt span:nth-child(2){animation-delay:.2s}.sld .dt span:nth-child(3){animation-delay:.4s}
+@keyframes bk{0%,80%,100%{opacity:0}40%{opacity:1}}
+@keyframes toastIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-20px)}}
+.se-letter{background:var(--bg4);border:1px solid var(--goldD);border-radius:4px;padding:1em;margin:.8em 0;position:relative}
+.se-letter::before{content:'✉ 书信';position:absolute;top:-10px;left:10px;background:var(--bg3);padding:0 8px;color:var(--gold);font-size:.75em;border:1px solid var(--goldD);border-radius:2px}
+.se-letter .sender{color:var(--gold);font-weight:700;margin-bottom:.5em;font-size:.9em}
+.se-letter .content{color:var(--txt);line-height:1.8;white-space:pre-wrap;font-size:.9em}
+/* ---- MAP - Circular Nodes ---- */
+.mhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8em}
+.mbc{display:flex;gap:.2em;flex-wrap:wrap;font-size:.8em;align-items:center}
+.mbc span{color:var(--txt2);cursor:pointer;padding:.1em .3em}.mbc span:hover{color:var(--gold)}.mbc span.cur{color:var(--gold);cursor:default;font-weight:700}
+.mbc .sep{color:var(--txt3);cursor:default}
+.mbgu{width:30px;height:30px;border:1px solid var(--bdr);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.75em;color:var(--txt3);transition:.2s}
+.mbgu:hover{border-color:var(--gold);color:var(--gold)}
+.mwrap{position:relative;width:100%;aspect-ratio:1/1;max-width:360px;margin:0 auto}
+.mring{position:absolute;inset:0}
+.mn{position:absolute;width:68px;height:68px;border:1.5px solid rgba(201,168,76,.2);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.3s;background:transparent}
+.mn:hover{border-color:var(--gold);box-shadow:0 0 18px rgba(201,168,76,.2);transform:scale(1.08)}
+.mn.here{border-color:var(--gold);box-shadow:0 0 12px rgba(201,168,76,.15)}
+.mn .nm{font-size:.65em;color:var(--txt);text-align:center;line-height:1.2;max-width:62px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mn .tp2{font-size:.48em;color:var(--txt3);margin-top:.1em}
+/* Map popup */
+.mpop{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--bg3);border:1px solid var(--bdr);border-radius:4px;padding:1.2em;z-index:20;min-width:220px;box-shadow:0 8px 30px rgba(0,0,0,.6)}
+.mpop.open{display:block}.mpop h4{color:var(--gold);margin-bottom:.5em;text-align:center}.mpop .mpi{font-size:.82em;color:var(--txt2);margin-bottom:.8em;text-align:center}
+.mpop .mpa{display:flex;flex-direction:column;gap:.4em}
+/* ---- CHAR LIST ---- */
+.cl{display:flex;flex-direction:column;gap:.5em}
+.cc2{display:flex;gap:.7em;padding:.7em;background:var(--bg3);border:1px solid var(--bdr);border-radius:3px;cursor:pointer;transition:.2s;position:relative}
+.cc2:hover{background:var(--bg4);border-color:var(--bdrG)}
+.ca{width:44px;height:44px;border-radius:50%;border:1px solid var(--goldD);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:1.3em;flex-shrink:0;overflow:hidden;position:relative}
+.ca img{width:100%;height:100%;object-fit:cover}
+.ca .avol{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);opacity:0;transition:.2s;font-size:.5em;color:var(--goldL);cursor:pointer}.ca:hover .avol{opacity:1}
+.ci{flex:1;min-width:0}.ci .cn{color:var(--gold);font-size:.88em}.ci .cd{color:var(--txt2);font-size:.75em}.ci .cm{color:var(--txt3);font-size:.72em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.15em}
+.fb{width:55px;height:5px;background:var(--bg2);border-radius:3px;margin-top:.25em;overflow:hidden}.fb .fl{height:100%;background:linear-gradient(90deg,var(--redD),var(--gold));border-radius:3px;transition:.3s}
+.cc2 .cdel{position:absolute;top:4px;right:6px;width:18px;height:18px;border-radius:50%;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.3);color:var(--red);font-size:.65em;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:.2s;z-index:2}
+.cc2:hover .cdel{opacity:1}.cc2 .cdel:hover{background:rgba(192,57,43,.35);border-color:var(--red)}
+.cc2 .cchk{position:absolute;top:4px;left:6px;z-index:2;accent-color:var(--gold);width:15px;height:15px;cursor:pointer}
+.char-bar{display:flex;justify-content:space-between;align-items:center;padding:.4em .6em;background:var(--bg4);border:1px solid var(--bdr);border-radius:3px;margin-bottom:.6em;font-size:.82em}
+.char-bar .cb-left{display:flex;gap:.6em;align-items:center;color:var(--txt2)}
+.char-bar .cb-left label{display:flex;align-items:center;gap:.3em;cursor:pointer}
+.char-bar .cb-left input{accent-color:var(--gold)}
+/* ---- PANEL ---- */
+.ps{margin-bottom:1.3em}.ps h3{color:var(--gold);font-size:.95em;margin-bottom:.5em;padding-bottom:.25em;border-bottom:1px solid var(--bdr);letter-spacing:.08em}
+.idc{display:flex;gap:.8em;padding:.8em;background:var(--bg3);border:1px solid var(--bdr);border-radius:3px}
+.ida{width:72px;height:72px;border-radius:50%;border:2px solid var(--goldD);object-fit:cover;flex-shrink:0}
+.idi{flex:1;font-size:.82em}.idi .r{display:flex;justify-content:space-between;padding:.12em 0}.idi .lb{color:var(--txt2)}.idi .vl{color:var(--txt)}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:.4em}
+.ai{padding:.45em .6em;background:var(--bg3);border:1px solid var(--bdr);border-radius:2px}
+.ai .an{color:var(--txt2);font-size:.72em}.ai .av2{color:var(--gold);font-size:1.05em;margin-top:.1em}
+.rd{display:flex;gap:.3em;flex-wrap:wrap;margin-bottom:.4em}
+.rr{width:26px;height:26px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;font-size:.55em;color:#fff;font-weight:700}
+.rr.wh{border-color:#ccc;background:rgba(255,255,255,.12)}.rr.ye{border-color:#e8b830;background:rgba(232,184,48,.15)}
+.rr.pu{border-color:#9b59b6;background:rgba(155,89,182,.15)}.rr.bk{border-color:#555;background:rgba(0,0,0,.3)}
+.rr.re{border-color:#e74c3c;background:rgba(231,76,60,.15)}.rr.gl{border-color:#f1c40f;background:rgba(241,196,15,.2)}
+.rr.em{border-color:var(--bdr);border-style:dashed;background:transparent}
+.sl{display:flex;flex-direction:column;gap:.35em}
+.ski{padding:.5em;background:var(--bg3);border:1px solid var(--bdr);border-radius:2px}.ski .skn{color:var(--goldL);font-size:.85em}.ski .skd{color:var(--txt2);font-size:.78em;margin-top:.1em}
+/* ---- INV ---- */
+.it{display:flex;border-bottom:1px solid var(--bdr);margin-bottom:.8em}
+.itb{padding:.4em .8em;cursor:pointer;color:var(--txt3);font-size:.85em;border-bottom:2px solid transparent;transition:.2s}
+.itb.ac{color:var(--gold);border-bottom-color:var(--gold)}
+.ig{display:flex;flex-direction:column;gap:.4em}
+.ii{display:flex;gap:.6em;padding:.5em;background:var(--bg3);border:1px solid var(--bdr);border-radius:2px;align-items:center}
+.ii .ic{width:36px;height:36px;background:var(--bg2);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0;border-radius:2px}
+.ii .iif{flex:1}.ii .iin{color:var(--goldL);font-size:.85em}.ii .iid{color:var(--txt3);font-size:.72em}
+.emp{text-align:center;color:var(--txt3);padding:1.5em;font-size:.85em}
+/* ---- HISTORY ---- */
+.htg{cursor:pointer;padding:.5em;background:var(--bg3);border:1px solid var(--bdr);color:var(--gold);display:flex;justify-content:space-between;align-items:center;margin-bottom:.4em;font-size:.9em;border-radius:2px}
+.htc{max-height:0;overflow:hidden;transition:.3s}.htc.open{max-height:9999px}
+.he{padding:.4em;border-bottom:1px solid rgba(37,37,56,.5);font-size:.8em;color:var(--txt2)}.he .tn{color:var(--goldD);font-size:.7em}
+/* ---- SETTINGS ---- */
+.sg{margin-bottom:1.3em}.sg h3{color:var(--gold);font-size:.95em;margin-bottom:.5em;border-bottom:1px solid var(--bdr);padding-bottom:.25em}
+.sti{display:flex;justify-content:space-between;align-items:center;padding:.5em 0;border-bottom:1px solid rgba(37,37,56,.4);font-size:.88em}
+.sti .lb{color:var(--txt2)}
+.tho{display:flex;gap:.4em;margin-top:.4em}
+.tho div{width:32px;height:32px;border:2px solid var(--bdr);cursor:pointer;border-radius:2px;transition:.2s}
+.tho div.ac{border-color:var(--gold);box-shadow:var(--glow)}
+.tho .td{background:linear-gradient(135deg,#080810,#161625)}.tho .ti{background:linear-gradient(135deg,#f5f0e6,#ede5d5)}
+.tho .tc{background:linear-gradient(135deg,#06001a,#180048)}.tho .tb{background:linear-gradient(135deg,#0c0404,#2a0e0e)}.tho .tj{background:linear-gradient(135deg,#040e08,#0e2818)}
+.ss{display:flex;flex-direction:column;gap:.4em}
+.sv{display:flex;justify-content:space-between;align-items:center;padding:.5em;background:var(--bg3);border:1px solid var(--bdr);border-radius:2px}
+.sv .si2{font-size:.8em;color:var(--txt2)}.sv .sa{display:flex;gap:.3em}
+/* ---- MODAL ---- */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;display:none;justify-content:center;align-items:center;padding:.8em;backdrop-filter:blur(2px)}
+.mo.ac{display:flex}.mb{background:var(--bg3);border:1px solid var(--bdr);max-width:480px;width:100%;max-height:82vh;overflow-y:auto;padding:1.3em;position:relative;border-radius:4px}
+.mc{position:absolute;top:.4em;right:.6em;color:var(--txt3);cursor:pointer;font-size:1.2em;background:none;border:none}.mc:hover{color:var(--gold)}
+/* ---- UTIL ---- */
+.hid{display:none!important}
+/* ---- WPLIB ---- */
+.wpi{display:flex;gap:.6em;padding:.55em .7em;background:var(--bg3);border:1px solid var(--bdr);border-radius:3px;margin-bottom:.4em;cursor:pointer;transition:.2s;align-items:center}
+.wpi:hover{background:var(--bg4);border-color:var(--bdrG)}
+.wpi.selected{border-color:var(--gold);background:var(--goldG)}
+.wpi .wpi-icon{width:36px;height:36px;background:var(--bg2);border:1px solid var(--bdr);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1em;flex-shrink:0}
+.wpi .wpi-info{flex:1;min-width:0}.wpi .wpi-name{color:var(--goldL);font-size:.85em}.wpi .wpi-type{color:var(--txt3);font-size:.7em}
+.wpi .wpi-desc{color:var(--txt2);font-size:.72em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wpi .wpi-del{width:20px;height:20px;border-radius:50%;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.3);color:var(--red);font-size:.6em;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:.2s;flex-shrink:0}
+.wpi:hover .wpi-del{opacity:1}.wpi .wpi-del:hover{background:rgba(192,57,43,.35)}
+@media(max-width:400px){:root{--fs:13px}.btn{padding:.45em 1em}}
+</style>
+</head>
+<body>
+<div id="toast-container" style="position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:90%;max-width:400px"></div>
+<!-- COVER -->
+<div id="cover" class="screen active">
+<div class="cbg" id="cbg"></div>
+<div class="cc">
+<h1>斗罗大陆·启魂录</h1>
+<p class="sub">武魂觉醒 · 命由己定</p>
+<div class="bg">
+<button class="btn pri" onclick="UI.go('char-create')">开始游戏</button>
+<button class="btn" onclick="UI.goLoad()">读取存档</button>
+<button class="btn" onclick="UI.go('api-setup')">连接API</button>
+</div>
+</div>
+</div>
+<!-- API -->
+<div id="api-setup" class="screen">
+<div class="sbox">
+<h2>连接API</h2>
+<div class="fg"><label>API端点</label><input id="aep" placeholder="https://api.example.com/v1"></div>
+<div class="fg"><label>API密钥</label><input type="password" id="akey" placeholder="sk-..."></div>
+<div class="fg"><label>模型</label>
+<div style="display:flex;gap:.4em"><input id="amod" placeholder="模型名称" style="flex:1"><button class="btn sm" onclick="API.fetch()">拉取</button></div>
+<select id="asel" class="hid" onchange="$('amod').value=this.value"></select>
+<div id="alist" style="font-size:.75em;color:var(--txt3);margin-top:.3em"></div>
+</div>
+<div class="fr"><button class="btn" onclick="UI.go('cover')">返回</button><button class="btn pri" onclick="API.save()">保存</button></div>
+<div id="ast" style="text-align:center;margin-top:.8em;font-size:.8em;color:var(--txt3)"></div>
+</div>
+</div>
+<!-- CHAR CREATE -->
+<div id="char-create" class="screen">
+<div class="sbox" style="max-width:460px">
+<h2>角色创建</h2>
+<div class="avup" onclick="$('avf').click()"><img id="avp" class="hid"><span id="avpl">上传头像</span></div>
+<input type="file" id="avf" accept="image/*" class="hid" onchange="UI.avUpload(event)">
+<div class="mtog"><button class="btn ac" data-m="random" onclick="UI.cmode('random')">随机</button><button class="btn" data-m="custom" onclick="UI.cmode('custom')">自定义</button><button class="btn" data-m="full" onclick="UI.cmode('full')">完全自定义</button></div>
+<div class="fg"><label>性别</label><div class="rg"><label><input type="radio" name="gd" value="男" checked="">男</label><label><input type="radio" name="gd" value="女">女</label></div></div>
+<div class="fg"><label>姓名</label><input id="cname" placeholder="留空随机生成"></div>
+<!-- 自定义模式字段（下拉选择） -->
+<div id="cfields" class="hid">
+<div class="fg"><label>家世（10+种）</label><select id="cfam"><option value="">随机</option><option>贫寒猎户</option><option>普通农户</option><option>镇上商贩</option><option>铁匠之家</option><option>药草世家</option><option>小贵族</option><option>没落宗门弟子</option><option>孤儿</option><option>军伍之家</option><option>书香门第</option><option>镖局之后</option><option>渔家子弟</option><option>流浪艺人</option></select></div>
+<div class="fg"><label>性格（15+种）</label><select id="cper"><option value="">随机</option><option>沉稳内敛</option><option>热血冲动</option><option>狡黠机敏</option><option>温和善良</option><option>冷漠孤傲</option><option>豪爽仗义</option><option>谨慎多疑</option><option>天真烂漫</option><option>阴鸷狠辣</option><option>桀骜不驯</option><option>老成持重</option><option>乐天豁达</option><option>沉默寡言</option><option>嫉恶如仇</option><option>随遇而安</option><option>好奇心强</option><option>忠厚老实</option></select></div>
+<div class="fg"><label>出生地</label><select id="cbp"><option value="">随机</option><option>圣魂村</option><option>诺丁城</option><option>索托城</option><option>天斗城</option><option>星罗城</option><option>狂澜城</option><option>碧云城</option><option>月光城</option><option>绝世城</option><option>凤凰城</option><option>风翔城</option></select></div>
+</div>
+<!-- 完全自定义模式字段（纯输入+武魂库选择） -->
+<div id="cfields-full" class="hid">
+<div class="fg"><label>家世</label><input id="cfam2" placeholder="输入家世背景，如：没落剑宗弟子"></div>
+<div class="fg"><label>性格</label><input id="cper2" placeholder="输入性格特点，如：外冷内热"></div>
+<div class="fg"><label>出生地</label><input id="cbp2" placeholder="输入出生地，如：圣魂村"></div>
+<div class="fg">
+<label>武魂（从武魂库选择，留空则随机生成）</label>
+<div style="display:flex;gap:.4em;align-items:center">
+<select id="cwp-sel" style="flex:1"><option value="">不选择（随机生成）</option></select>
+<button class="btn sm" onclick="UI.openWpLib()" title="打开武魂库">武魂库</button>
+</div>
+<div id="cwp-preview" style="font-size:.78em;color:var(--txt3);margin-top:.3em"></div>
+</div>
+</div>
+<div class="fr"><button class="btn" onclick="UI.go('cover')">返回</button><button class="btn" onclick="UI.openWpLib()" style="border-color:var(--bdrG)">武魂库</button><button class="btn pri" onclick="Game.create()">觉醒武魂</button></div>
+</div>
+</div>
+<!-- GAME -->
+<div id="game" class="screen">
+<div id="ghd">
+<div class="pb"><img class="mav hid" id="hav"><span class="nm" id="hnm">--</span><span class="lv" id="hlv">--</span></div>
+<span id="hsl" style="font-size:.7em;color:var(--txt3)"></span>
+</div>
+<div id="gc">
+<!-- STORY -->
+<div id="tab-story" class="tp active">
+<div id="slog" style="padding:.8em"></div>
+<div id="cpop" style="margin:0 .8em"></div>
+<div id="sia" style="padding:.4em .8em .8em">
+<textarea id="si" placeholder="输入你的行动..." rows="1"></textarea>
+<div id="ctri" onclick="UI.togChoices()" title="展开选项">△</div>
+<button class="btn sm pri" id="story-send" onclick="Story.send()">发送</button>
+</div>
+</div>
+<!-- CHARS -->
+<div id="tab-chars" class="tp">
+<h3 style="color:var(--gold);margin-bottom:.6em">结识人物</h3>
+<div id="char-bar" class="char-bar" style="display:none">
+<div class="cb-left"><label><input type="checkbox" id="char-selall" onchange="UI.charSelAll(this.checked)">全选</label><span id="char-selcount">已选0人</span></div>
+<button class="btn sm" style="border-color:rgba(192,57,43,.4);color:var(--red)" onclick="UI.charDelSel()">删除所选</button>
+</div>
+<div class="cl" id="clist"></div>
+<div class="emp" id="noc">尚未结识任何人物</div>
+</div>
+<!-- PANEL -->
+<div id="tab-panel" class="tp">
+<div class="ps"><h3>身份</h3><div class="idc"><img class="ida hid" id="pav"><div class="idi" id="pid"></div></div></div>
+<div class="ps"><h3>属性</h3><div class="ag" id="pat"></div></div>
+<div class="ps"><h3>魂环</h3><div class="rd" id="prg"></div></div>
+<div class="ps"><h3>魂技</h3><div class="sl" id="psk"></div></div>
+<div class="ps"><h3>魂骨</h3><div class="sl" id="pbn"></div></div>
+</div>
+<!-- MAP -->
+<div id="tab-map" class="tp">
+<div class="mhd"><div class="mbc" id="mbc"></div><div class="mbgu" onclick="$('mbgf').click()" title="上传背景">↙</div><input type="file" id="mbgf" accept="image/*" class="hid" onchange="Map.bgUp(event)"></div>
+<div class="mwrap" id="mwrap"><div class="mring" id="mring"></div><div class="mpop" id="mpop"></div></div>
+</div>
+<!-- INV -->
+<div id="tab-inv" class="tp">
+<div class="it"><div class="itb ac" onclick="Inv.tab('misc')">杂物</div><div class="itb" onclick="Inv.tab('bones')">魂骨</div><div class="itb" onclick="Inv.tab('rings')">魂环</div></div>
+<div class="ig" id="ilist"></div><div class="emp" id="iemp">背包空空如也</div>
+</div>
+<!-- HISTORY -->
+<div id="tab-history" class="tp"><div class="htg" onclick="UI.togHist()"><span>剧情回顾</span><span id="har">▼</span></div><div class="htc" id="hcon"></div></div>
+<!-- SETTINGS -->
+<div id="tab-settings" class="tp"></div>
+</div>
+<!-- NAV -->
+<div id="gnav">
+<div class="ni ac" data-t="story" onclick="UI.tab('story')"><svg viewBox="0 0 24 24"><path d="M6 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"></path></svg><span>剧情</span></div>
+<div class="ni" data-t="chars" onclick="UI.tab('chars')"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"></path></svg><span>人物</span></div>
+<div class="ni" data-t="panel" onclick="UI.tab('panel')"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg><span>面板</span></div>
+<div class="ni" data-t="map" onclick="UI.tab('map')"><svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"></path></svg><span>地图</span></div>
+<div class="ni" data-t="inv" onclick="UI.tab('inv')"><svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"></path></svg><span>背包</span></div>
+<div class="ni" data-t="history" onclick="UI.tab('history')"><svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"></path></svg><span>回顾</span></div>
+<div class="ni" data-t="settings" onclick="UI.tab('settings')"><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"></path></svg><span>设置</span></div>
+</div>
+</div>
+<!-- 武魂库 MODAL -->
+<div class="mo" id="wplib-mod"><div class="mb" style="max-width:520px">
+<button class="mc" onclick="$('wplib-mod').classList.remove('ac')">&times;</button>
+<h3 style="color:var(--gold);margin-bottom:.6em;text-align:center;letter-spacing:.1em">武魂库</h3>
+<div style="display:flex;gap:.4em;margin-bottom:.8em">
+<input id="wplib-search" placeholder="搜索武魂..." style="flex:1;padding:.45em .6em;background:var(--bg2);border:1px solid var(--bdr);color:var(--txt);font:inherit;font-size:.82em;border-radius:2px" oninput="WpLib.filter(this.value)">
+<button class="btn sm" onclick="WpLib.showAdd()">添加自定义</button>
+</div>
+<div id="wplib-add" class="hid" style="background:var(--bg4);padding:.8em;border-radius:3px;margin-bottom:.8em">
+<div class="fg"><label>武魂名称</label><input id="wpa-name" placeholder="如：碧幽灵剑"></div>
+<div class="fg"><label>类型</label><select id="wpa-type"><option>器武魂</option><option>兽武魂</option><option>植物武魂</option><option>元素武魂</option><option>特殊武魂</option></select></div>
+<div class="fg"><label>品质</label><select id="wpa-quality"><option>废</option><option>普通</option><option>优秀</option><option selected>高级</option><option>顶级</option><option>超级</option><option>神级</option></select></div>
+<div class="fg"><label>描述（选填）</label><input id="wpa-desc" placeholder="简短描述武魂特点"></div>
+<div style="display:flex;gap:.4em;justify-content:flex-end"><button class="btn sm" onclick="$('wplib-add').classList.add('hid')">取消</button><button class="btn sm pri" onclick="WpLib.addCustom()">确认添加</button></div>
+</div>
+<div id="wplib-list" style="max-height:50vh;overflow-y:auto"></div>
+<div style="margin-top:.6em;text-align:center;font-size:.75em;color:var(--txt3)" id="wplib-count"></div>
+</div></div>
+<!-- MEET MODAL -->
+<div class="mo" id="mmod"><div class="mb" style="max-width:360px;text-align:center">
+<button class="mc" onclick="Game.meet(false)">×</button>
+<h3 style="color:var(--gold);margin-bottom:.5em;letter-spacing:.1em">— 结识新人物 —</h3>
+<div style="font-size:2.8em;margin:.4em 0" id="mmico">👤</div>
+<div id="mmn" style="color:var(--gold);font-size:1.15em;margin:.2em 0;font-weight:700"></div>
+<div id="mmd" style="color:var(--txt2);font-size:.82em;margin-bottom:.3em"></div>
+<div id="mmd2" style="color:var(--txt3);font-size:.78em;margin-bottom:.8em;font-style:italic"></div>
+<div style="display:flex;gap:.6em;justify-content:center">
+<button class="btn sm" onclick="Game.meet(false)">忽略</button>
+<button class="btn sm pri" onclick="Game.meet(true)">结识</button>
+</div>
+</div></div>
+<!-- CHAR DETAIL MODAL -->
+<div class="mo" id="cdmod"><div class="mb" id="cdbox"></div></div>
+<input type="file" id="muf" accept="audio/*" class="hid">
+<input type="file" id="cavf" accept="image/*" class="hid">
+<audio id="bgm" loop=""></audio>
+<script>/* ================================================================
+   斗罗大陆·启魂录 — game.js v2  全面重构
+   ================================================================ */
+const $ = id => document.getElementById(id);
+const rng = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const pick = a => a[rng(0,a.length-1)];
+const clamp = (v,lo,hi) => Math.max(lo,Math.min(hi,v));
+
+/* ========== GLOBAL STATE ========== */
+const G = {
+  ep:'',key:'',mod:'',
+  player:null, chars:[], log:[], hist:[],
+  inv:{misc:[],bones:[],rings:[]},
+  map:['斗罗大陆'], turn:0, cmode:'random',
+  theme:'dark', fs:15, mapBg:'', ctx:[], gen:false,
+  cover:'https://img.heliar.top/file/1777144885410_IMG_20260426_032043.jpg',
+  _av:'', _mq:[], _mi:0, _pm:null, _choices:[]
+};
+$('cbg').style.backgroundImage=`url(${G.cover})`;
+
+/* ========== DATA ========== */
+const SD = {
+  banned:'柔骨兔,昊天锤,蓝电霸王龙,幽冥灵猫,白虎,邪火凤凰,七宝琉璃,九宝琉璃,香肠,罗三炮,碧磷蛇皇,黄金圣龙,冰碧帝皇蝎,泰坦巨猿,天青牛蟒,蓝银皇,人面魔蛛,曼陀罗蛇,七宝琉璃塔,九宝琉璃塔,诸葛连弩,佛怒唐莲,修罗魔剑,黄金三叉戟,天使圣剑,罗刹魔镰,六翼天使'.split(','),
+  bp:'圣魂村,诺丁城,索托城,天斗城,星罗城,狂澜城,碧云城,月光城,绝世城,凤凰城,风翔城'.split(','),
+  fam:'贫寒猎户,普通农户,镇上商贩,铁匠之家,药草世家,小贵族,没落宗门弟子,孤儿,军伍之家,书香门第,镖局之后,渔家子弟,流浪艺人'.split(','),
+  per:'沉稳内敛,热血冲动,狡黠机敏,温和善良,冷漠孤傲,豪爽仗义,谨慎多疑,天真烂漫,阴鸷狠辣,桀骜不驯,老成持重,乐天豁达,沉默寡言,嫉恶如仇,随遇而安,好奇心强,忠厚老实'.split(','),
+  sn:'唐,戴,奥,马,宁,朱,白,赵,陈,林,萧,叶,柳,沈,韩,苏,冯,秦,顾,江,方,谢,楚,燕,慕容,欧阳,上官,司空'.split(','),
+  mn:'云,风,辰,轩,泽,烨,铭,瑞,逸,宸,翊,煜,彦,霆,凌,峰,渊,岳,昊,睿,旭,明,浩,鹏'.split(','),
+  fn:'雪,月,霜,萱,瑶,琳,婉,清,幽,凝,蝶,芸,漓,灵,玥,瑾,柔,若,梦,兰,菲,怡,婷,紫'.split(','),
+  rk:'魂士,魂师,大魂师,魂尊,魂宗,魂王,魂帝,魂圣,魂斗罗,封号斗罗'.split(','),
+  timeline:[
+    {a:6,e:'唐三觉醒武魂蓝银草（实为蓝银皇），先天满魂力，进入诺丁学院，结识小舞和大师玉小刚'},
+    {a:7,e:'唐三获得第一魂环（曼陀罗蛇，四百二十三年）'},
+    {a:12,e:'唐三小舞从诺丁学院毕业，前往索托城，史莱克学院招生，史莱克七怪集结'},
+    {a:14,e:'全大陆高级魂师学院精英大赛，史莱克夺冠，小舞十万年魂兽身份暴露，唐昊现身救场'},
+    {a:15,e:'史莱克七怪五年之约分散修炼'},
+    {a:16,e:'唐三进入杀戮之都历练，习得杀神领域'},
+    {a:17,e:'唐昊自断肢臂赠魂骨，唐三前往天斗城学礼仪'},
+    {a:18,e:'五年之约七怪齐聚，小舞献祭，唐三获十万年魂环魂骨'},
+    {a:19,e:'唐三建唐门，武魂殿灭七宝琉璃宗蓝电霸王龙宗'},
+    {a:20,e:'唐三等前往海神岛接受海神考核'},
+    {a:22,e:'唐三通过海神九考，千仞雪成天使神'},
+    {a:23,e:'武魂帝国建立，嘉陵关大战，唐三成海神，大陆统一'}
+  ],
+  mt:{
+    '斗罗大陆':{t:'大陆',c:{
+      '天斗帝国':{t:'帝国',c:{
+        '天斗城':{t:'城市',c:{'天斗皇宫':{t:'宫殿'},'天斗拍卖场':{t:'商铺'},'天斗学院':{t:'学院'},'皇家猎场':{t:'野外'}}},
+        '诺丁城':{t:'城市',c:{'诺丁学院':{t:'学院'},'圣魂村':{t:'村落'},'武魂殿分殿':{t:'势力'}}},
+        '索托城':{t:'城市',c:{'史莱克学院':{t:'学院'},'索托酒馆':{t:'商铺'},'大斗魂场':{t:'竞技场'}}},
+        '月光城':{t:'城市',c:{}}, '碧云城':{t:'城市',c:{}}, '风翔城':{t:'城市',c:{}},
+        '昊天宗':{t:'宗门',c:{'昊天宗山门':{t:'区域'},'昊天宗后山':{t:'秘境'}}},
+        '七宝琉璃宗':{t:'宗门',c:{}}
+      }},
+      '星罗帝国':{t:'帝国',c:{
+        '星罗城':{t:'城市',c:{'星罗皇宫':{t:'宫殿'},'绝杀之都':{t:'秘境'}}},
+        '狂澜城':{t:'城市',c:{}}, '绝世城':{t:'城市',c:{}}, '凤凰城':{t:'城市',c:{}},
+        '蓝电霸王龙宗':{t:'宗门',c:{}}
+      }},
+      '武魂殿':{t:'势力',c:{'武魂城':{t:'城市',c:{'教皇殿':{t:'宫殿'},'长老殿':{t:'区域'},'供奉殿':{t:'区域'}}}}},
+      '星斗大森林':{t:'秘境',c:{'森林外围':{t:'野外'},'森林核心':{t:'秘境'},'湖心小岛':{t:'秘境'}}},
+      '海神岛':{t:'海岛',c:{'海神殿':{t:'宫殿'},'紫珍珠滩':{t:'区域'},'环形海域':{t:'海域'}}},
+      '杀戮之都':{t:'秘境',c:{'地狱路':{t:'区域'},'杀戮竞技场':{t:'竞技场'}}},
+      '冰火两仪眼':{t:'秘境',c:{}}
+    }}
+  }
+};
+
+function rkName(lv){if(lv>=100)return'神';return SD.rk[clamp(Math.floor((lv-1)/10),0,9)]||'魂士'}
+function rkTitle(lv){return`${rkName(lv)}（${lv}级）`}
+
+/* ========== API ========== */
+const API={
+  fetch:async()=>{
+    const ep=$('aep').value.trim().replace(/\/+$/,''),k=$('akey').value.trim();
+    if(!ep){$('ast').textContent='请填写端点';return}
+    $('ast').textContent='拉取中...';
+    try{
+      const r=await fetch(ep+'/models',{headers:{'Authorization':'Bearer '+k}});
+      if(!r.ok)throw new Error(r.status);
+      const d=await r.json(),ms=(d.data||d).map(m=>m.id||m.name||m).filter(Boolean);
+      const s=$('asel');s.innerHTML='<option value="">选择模型</option>'+ms.map(m=>`<option value="${m}">${m}</option>`).join('');
+      s.classList.remove('hid');$('alist').textContent=`${ms.length}个模型`;$('ast').textContent='拉取成功';
+    }catch(e){$('ast').textContent='失败: '+e.message}
+  },
+  save:()=>{
+    G.ep=$('aep').value.trim().replace(/\/+$/,'');G.key=$('akey').value.trim();G.mod=$('amod').value.trim();
+    if(!G.ep||!G.mod){$('ast').textContent='请填写端点和模型';return}
+    localStorage.setItem('dl_api',JSON.stringify({e:G.ep,k:G.key,m:G.mod}));
+    $('ast').textContent='已保存';setTimeout(()=>UI.go('cover'),400);
+  },
+  load:()=>{try{const d=JSON.parse(localStorage.getItem('dl_api'));if(d){G.ep=d.e||'';G.key=d.k||'';G.mod=d.m||'';$('aep').value=G.ep;$('akey').value=G.key;$('amod').value=G.mod}}catch(e){}},
+  call:async(msgs,t=0.92)=>{
+    if(!G.ep||!G.mod)throw new Error('请先连接API（封面→连接API）');
+    const r=await fetch(G.ep+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+G.key},
+      body:JSON.stringify({model:G.mod,messages:msgs,temperature:t,max_tokens:4000})});
+    if(!r.ok){const t2=await r.text();throw new Error(`API错误(${r.status}): ${t2.slice(0,200)}`)}
+    const d=await r.json();return d.choices[0].message.content;
+  }
+};
+
+/* ========== PROMPT BUILDER (完整世界观) ========== */
+const PB={
+  sys:()=>{
+    const p=G.player, age=p?p.age:6;
+    const past=SD.timeline.filter(t=>t.a<=age).map(t=>`唐三${t.a}岁：${t.e}`).join('\n');
+    const next=SD.timeline.find(t=>t.a>age);
+    return `你是文字RPG叙事AI，严格基于唐家三少小说《斗罗大陆》第一部世界观进行叙事。
+
+===== 世界观 =====
+本游戏背景设定在《斗罗大陆1》的宏大世界。玩家扮演土生土长的斗罗大陆原住民（非穿越者），从6岁武魂觉醒开始，踏上魂师之路。可选择与唐三同行成为史莱克第八怪，加入武魂殿，或远走他乡自有奇遇。
+
+===== 等级体系 =====
+魂士(1-10级)→魂师(11-20)→大魂师(21-30)→魂尊(31-40)→魂宗(41-50)→魂王(51-60)→魂帝(61-70)→魂圣(71-80)→魂斗罗(81-90)→封号斗罗(91-99)→神(100)
+- 魂士(1-10级)无需魂环，仅积累魂力升级
+- 10级后每突破大阶(10→11, 20→21等)必须吸收一个对应魂环
+- 每级修炼数值100点
+
+===== 魂环系统 =====
+白色(1-99年) | 黄色(100-999年) | 紫色(1000-9999年) | 黑色(1万-9.9万年) | 红色(10万-99万年) | 金色(百万年/神赐)
+吸收限制：
+- 魂士可吸收400年以下黄色
+- 魂师可吸收900年以下黄色
+- 大魂师可吸收4000年以下紫色
+- 魂尊可吸收9500年以下紫色
+- 魂宗及以上可尝试万年黑色魂环(有精神反噬风险)
+- 红色魂环需魂斗罗(80级+)且需极致武魂/特殊体质
+- 红色魂环必带双魂技，100%爆魂骨
+- 吸收失败：魂力倒退1-3级、体质降低、武魂可能受损
+- 成功率由体质+精神力决定
+
+===== 魂技系统 =====
+- 每个魂环对应1个专属魂技，效果与武魂类型+魂兽种类强绑定
+- 魂技可通过悟性+修炼进阶（如"凝露缠绕"→"寒雾凝缚"附冰冻效果）
+
+===== 魂骨系统 =====
+- 最多6块：头骨、躯干骨、左臂骨、右臂骨、左腿骨、右腿骨
+- 十万年魂兽必掉1块，万年10%，千年1%
+- 头骨需精神力60+，躯干骨最稀有
+- 每块魂骨1个专属技能，永久获得
+
+===== 五维属性(1-100) =====
+体质：魂环承受上限+肉身抗性+生命力
+精神力：精神攻防+魂环吸收率+精神技能学习
+悟性：功法/暗器/魂技领悟速度+技能进阶概率
+魅力：社交好感提升+原著角色互动概率
+运气：(隐藏)稀有物品/奇遇触发+随机事件结果
+
+===== 货币 =====
+金魂币(主) | 银魂币 | 铜魂币 (1金=100银=10000铜)
+
+===== 时间线(唐三年龄) =====
+当前唐三约${age}岁
+${past||'暂无'}
+${next?`即将发生(不要剧透但自然铺垫)：唐三${next.a}岁 ${next.e}`:''}
+
+===== 玩家角色 =====
+${p?`${p.name} | ${p.gender} | ${p.age}岁 | ${p.bp} | ${p.fam} | ${p.per}
+武魂：${p.wp||'未觉醒'}(${p.wpQ||'未知'}) | 先天:${p.inn}级 | 当前:${p.lv}级(${rkName(p.lv)}) | 进度:${p.sp||0}/100
+体质:${p.st.con} 精神力:${p.st.spr} 悟性:${p.st.com} 魅力:${p.st.cha} 运气:${p.st.lck}
+金:${p.mn.g} 银:${p.mn.s} 铜:${p.mn.c}
+魂环：${p.rings.length?p.rings.map((r,i)=>`第${i+1}环·${r.color}(${r.yrs}年${r.beast}→${r.skill})`).join('；'):'无'}
+魂骨：${p.bones.length?p.bones.map(b=>`${b.part}·${b.name}`).join('；'):'无'}
+位置：${G.map[G.map.length-1]}`:'未创建'}
+
+===== 已结识人物 =====
+${G.chars.length?G.chars.map(c=>`${c.name}(${c.id},好感${c.fav}/150,武魂:${c.wp||'无'},${c.lv?c.lv+'级':'未知'},性格:${c.per},现印象:${c.cimp})`).join('\n'):'无'}
+
+===== 背包 =====
+${G.inv.misc.map(i=>i.name).join('、')||'基础衣物、干粮'}
+
+===== 禁止觉醒武魂 =====
+${SD.banned.join('、')}
+
+════════════════════════════════════
+         AI 输出格式（严格遵循）
+════════════════════════════════════
+
+每次回复必须包含以下三部分，缺一不可：
+
+【第一部分：剧情叙述】
+- 不少于800字的沉浸式第三人称叙事
+- 包含场景描写、人物对话（用""标注）、心理活动、战斗过程等
+- 战斗场景需写出具体招式过程
+- 每回合必须有实质性剧情推进，禁止重复上回合场景
+- 涉及武魂必须写出完整武魂全名（如"碧幽灵剑"而非"一把剑"）
+- 涉及魂力变化必须在叙事中体现具体数值
+
+【第二部分：变动标记】
+所有属性/物品/人物/地点变化用【】标记，写在叙事正文之后。可能包含：
+【武魂觉醒:完整武魂名称,品质(废/普通/优秀/高级/顶级/超级/神级)】
+【先天魂力:数字】
+【体质:数字】【精神力:数字】【悟性:数字】【魅力:数字】【运气:数字】
+【魂力+数字】或【魂力-数字】
+【体质+数字】【精神力+数字】【悟性+数字】【魅力+数字】
+【金魂币+数字】【银魂币+数字】【铜魂币+数字】
+【魂环:颜色,年限,魂兽全名,魂技名,魂技效果描述】
+【魂骨:部位,名称,技能名,技能描述】
+【获得:物品名称】【失去:物品名称】
+【结识:全名,身份职业,武魂名或无,先天魂力数字或0,当前等级数字或0,性格特点,对玩家初印象(20字内)】
+【年龄+数字】
+【到达:地点名】
+【移动:地点名】（触发顶部弹幕提示，不写在正文）
+【互动:人物名-动作简述】（触发顶部弹幕提示，不写在正文）
+【活动:活动简述】（触发顶部弹幕提示，不写在正文）
+【系统:系统提示内容】（触发顶部弹幕提示，不写在正文）
+
+【书信:角色名|信件内容（以】结尾，内容中避免使用】）】
+【活动:活动名称或简短描述】
+【系统:系统提示内容】
+
+【第三部分：选项】
+标记和叙事全部结束后，给出恰好4个选项，格式：
+【选项A】选项内容（战斗/冒险方向）
+【选项B】选项内容（社交/对话方向）
+【选项C】选项内容（修炼/探索方向）
+【选项D】选项内容（其他创意方向）
+
+═══════ 铁律 ═══════
+1. 禁止替玩家做决定，每回合结尾必须给恰好4个【选项A/B/C/D】，不可遗漏
+2. 禁止生成被禁武魂
+3. 单次魂力+不超过15，属性+不超过5
+4. 结识人物必须有完整姓名，不能是无名NPC
+5. 遵循魂环年限限制
+6. 每回合剧情必须有新内容，绝不重复
+7. 觉醒武魂时必须同时输出武魂名+品质+先天魂力+五维全部数值
+8. 每回合叙事不少于800字
+9. 剧情中首次出现的有名有姓NPC（包括父母、武魂殿来人、村民、同龄人等）都必须用【结识:全名,身份,武魂或无,先天魂力或0,当前等级或0,性格,初印象】标记
+10. 选项必须每回合都生成，绝不可遗漏，这是最重要的规则
+11. 涉及角色移动、与NPC互动、触发活动时，必须使用【移动:xxx】、【互动:xxx】、【活动:xxx】标记，这些会以弹幕形式独立显示，不要混入800字的主线叙事中。`;
+  },
+
+  awaken:(p)=>{
+    const wpInstruction = p.selWp
+      ? `\n★★★ 重要：玩家已从武魂库选择了武魂「${p.selWp.name}」（${p.selWp.type}，${p.selWp.desc||''}）。\n觉醒仪式中必须觉醒这个武魂「${p.selWp.name}」，不要随机生成其他武魂！\n请根据这个武魂的特性来描写觉醒场景。\n在输出标记时使用：【武魂觉醒:${p.selWp.name},品质(废/普通/优秀/高级/顶级/超级/神级)】\n`
+      : `\n2. 随机生成一个独特武魂，完整写出武魂全名（绝不能是被禁武魂：${SD.banned.join('、')}）\n3. 武魂品质随机：废/普通/优秀/高级/顶级/超级/神级\n`;
+
+    return `你是斗罗大陆RPG叙事AI。现在进行武魂觉醒仪式。
+
+角色信息：
+姓名：${p.name} | 性别：${p.gender} | 年龄：6岁
+出生地：${p.bp} | 家世：${p.fam} | 性格：${p.per}
+${p.bp==='圣魂村'?'\n★ 圣魂村与唐三同村，觉醒仪式上唐三也在场（唐三觉醒了看似普通的蓝银草，先天满魂力）。请描写两人同场觉醒，并用【结识:唐三,...】标记输出。\n':''}
+严格要求：
+1. 写800字以上的觉醒仪式叙事，包含武魂殿来人、仪式过程、觉醒瞬间的详细描写
+${wpInstruction}
+4. 先天魂力3-10级随机
+5. 五维属性各1-100随机
+6. 觉醒仪式上出现的所有有名NPC（父亲、母亲、武魂殿测试者、同村同龄人等）都必须用【结识:全名,身份,武魂或无,先天魂力或0,当前等级或0,性格,对玩家初印象20字】标记输出，每个NPC必须有完整姓名
+7. 根据家世"${p.fam}"来设定父母身份和名字
+8. 如果有NPC给你送信或单独对话，请使用【书信:角色名|内容】格式。
+9. 如果有全服或特殊活动触发，请使用【活动:内容】格式。
+
+必须在叙事后输出所有标记：
+【武魂觉醒:武魂全名,品质(废/普通/优秀/高级/顶级/超级/神级)】
+【先天魂力:数字】
+【体质:数字】
+【精神力:数字】
+【悟性:数字】
+【魅力:数字】
+【运气:数字】
+【结识:父亲全名,身份,...】（如果父亲出现）
+【结识:母亲全名,身份,...】（如果母亲出现）
+【结识:其他NPC全名,...】（所有出现的有名NPC）
+
+最后必须给出4个选项（不可遗漏）：
+【选项A】选项内容（冒险方向）
+【选项B】选项内容（社交方向）
+【选项C】选项内容（修炼方向）
+【选项D】选项内容（其他方向）
+
+现在开始觉醒仪式的叙事：`
+  }
+};
+
+/* ========== STORY ENGINE ========== */
+const Story={
+  add:(txt,cls='')=>{
+    const d=document.createElement('div');d.className='se '+(cls||'');d.innerHTML=txt.replace(/\n/g,'<br>');
+    $('slog').appendChild(d);d.scrollIntoView({behavior:'smooth',block:'end'});
+    G.log.push({t:txt,c:cls,n:G.turn});G.hist.push({t:txt.slice(0,150)+(txt.length>150?'...':''),n:G.turn});
+  },
+  loading:()=>{const d=document.createElement('div');d.className='sld';d.id='sld';d.innerHTML='正在生成剧情<span class="dt"><span>.</span><span>.</span><span>.</span></span>';$('slog').appendChild(d);d.scrollIntoView({behavior:'smooth'})},
+  unload:()=>{const e=$('sld');if(e)e.remove()},
+
+  /* --- 解析器：处理【选项A/B/C/D】格式 + 所有变动标记 --- */
+  parse:(txt)=>{
+    const ch=[], opts=[], letters=[], toasts=[];
+
+    // 提取选项
+    const optRx=/【选项([A-Da-d])】\s*(.+?)(?=【选项[A-Da-d]】|$)/gs;
+    let om;
+    while((om=optRx.exec(txt))!==null) opts.push(om[2].trim());
+
+    if(opts.length===0){
+      const oldRx=/[①②③④⑤]\s*(.+)/g;
+      while((om=oldRx.exec(txt))!==null) opts.push(om[1].trim());
+    }
+
+    // 提取书信 【书信:角色名|内容】
+    const letterRx=/【书信[:：]([^|]+)\|([\s\S]*?)】/g;
+    let lm;
+    while((lm=letterRx.exec(txt))!==null) {
+      letters.push({sender:lm[1].trim(), content:lm[2].trim()});
+    }
+
+    // 提取活动/系统提示 【活动:xxx】 或 【系统:xxx】
+    const toastRx=/【(活动|系统|移动|互动|弹幕)[:：](.+?)】/g;
+    let tm;
+    while((tm=toastRx.exec(txt))!==null) {
+      toasts.push({type:tm[1], msg:tm[2].trim()});
+    }
+
+    // 提取所有变动标记
+    const ps=[
+      [/【武魂觉醒[:：](.+?)】/g,'wp'],
+      [/【先天魂力[:：](\d+)】/g,'inn'],
+      [/【体质[:：](\d+)】/g,'con_s'],[/【精神力[:：](\d+)】/g,'spr_s'],
+      [/【悟性[:：](\d+)】/g,'com_s'],[/【魅力[:：](\d+)】/g,'cha_s'],[/【运气[:：](\d+)】/g,'lck_s'],
+      [/【魂力([+-]\d+)】/g,'sp'],
+      [/【金魂币([+-]\d+)】/g,'gold'],[/【银魂币([+-]\d+)】/g,'silver'],[/【铜魂币([+-]\d+)】/g,'copper'],
+      [/【体质([+-]\d+)】/g,'con'],[/【精神力([+-]\d+)】/g,'spr'],
+      [/【悟性([+-]\d+)】/g,'com'],[/【魅力([+-]\d+)】/g,'cha'],
+      [/【魂环[:：](.+?)】/g,'ring'],[/【魂骨[:：](.+?)】/g,'bone'],
+      [/【结识[:：](.+?)】/g,'meet'],
+      [/【获得[:：](.+?)】/g,'iadd'],[/【失去[:：](.+?)】/g,'irem'],
+      [/【物品\+(.+?)】/g,'iadd'],[/【物品[-](.+?)】/g,'irem'],
+      [/【年龄\+(\d+)】/g,'age'],
+      [/【到达[:：](.+?)】/g,'loc']
+    ];
+    ps.forEach(([rx,tp])=>{let m;while((m=rx.exec(txt))!==null)ch.push({tp,v:m[1]})});
+
+    // 清洗叙事文本（去掉标记和选项）
+    let nar=txt
+      .replace(/【选项[A-Da-d]】\s*.+/g,'')
+      .replace(/[①②③④⑤]\s*.+/g,'')
+      .replace(/【书信[:：][^|]+\|[\s\S]*?】/g, '')
+      .replace(/【(活动|系统|移动|互动|弹幕)[:：].+?】/g, '')
+      .replace(/【.+?】/g,'')
+      .trim();
+
+    return{nar,ch,opts,letters,toasts};
+  },
+
+  /* --- 应用变动到玩家状态 --- */
+  apply:(changes, letters, toasts)=>{
+    const p=G.player;if(!p)return;const mq=[];
+    changes.forEach(c=>{
+      const v=c.v;
+      switch(c.tp){
+        case'wp':{const pts=v.split(',');p.wp=pts[0].trim();p.wpQ=pts[1]?pts[1].trim():'普通';break}
+        case'inn':p.inn=parseInt(v);p.lv=p.inn;p.sp=0;break;
+        case'con_s':p.st.con=parseInt(v);break;case'spr_s':p.st.spr=parseInt(v);break;
+        case'com_s':p.st.com=parseInt(v);break;case'cha_s':p.st.cha=parseInt(v);break;case'lck_s':p.st.lck=parseInt(v);break;
+        case'sp':{
+          const d=parseInt(v);p.sp=(p.sp||0)+d;
+          while(p.sp>=100){
+            if(p.lv%10===0&&p.lv>0&&p.lv<=90){p.sp=99;Story.add('⚠ 魂力达到'+p.lv+'级瓶颈，需吸收魂环方可突破！','sys');break}
+            p.sp-=100;p.lv++;
+          }
+          if(p.sp<0)p.sp=0;break;
+        }
+        case'gold':p.mn.g=Math.max(0,p.mn.g+parseInt(v));break;
+        case'silver':p.mn.s=Math.max(0,p.mn.s+parseInt(v));break;
+        case'copper':p.mn.c=Math.max(0,p.mn.c+parseInt(v));break;
+        case'con':p.st.con=clamp(p.st.con+parseInt(v),1,100);break;
+        case'spr':p.st.spr=clamp(p.st.spr+parseInt(v),1,100);break;
+        case'com':p.st.com=clamp(p.st.com+parseInt(v),1,100);break;
+        case'cha':p.st.cha=clamp(p.st.cha+parseInt(v),1,100);break;
+        case'ring':{
+          const pts=v.split(',');if(pts.length>=4){
+            const r={color:pts[0].trim(),yrs:parseInt(pts[1]),beast:pts[2].trim(),skill:pts[3].trim(),desc:pts[4]?pts[4].trim():''};
+            p.rings.push(r);p.skills.push({name:r.skill,desc:r.desc,ring:p.rings.length});
+            if(p.lv%10===0){p.lv++;p.sp=0}
+            G.inv.rings.push({name:`${r.color}魂环（${r.yrs}年${r.beast}）`,desc:r.skill,eq:true});
+          }break;
+        }
+        case'bone':{
+          const pts=v.split(',');if(pts.length>=3){
+            const b={part:pts[0].trim(),name:pts[1].trim(),skill:pts[2].trim(),desc:pts[3]?pts[3].trim():''};
+            p.bones.push(b);G.inv.bones.push({name:`${b.part}·${b.name}`,desc:b.skill+(b.desc?'：'+b.desc:''),eq:false,data:b});
+          }break;
+        }
+        case'meet':{
+          const pts=v.split(',');if(pts.length>=2){
+            mq.push({
+              name:pts[0].trim(), id:pts[1]?pts[1].trim():'未知',
+              wp:pts[2]?pts[2].trim():'未知', inn:parseInt(pts[3])||0,
+              lv:parseInt(pts[4])||0, per:pts[5]?pts[5].trim():'未知',
+              imp:pts[6]?pts[6].trim():'初次见面',
+              fav:10, cimp:pts[6]?pts[6].trim():'初次见面', av:null
+            });
+          }break;
+        }
+        case'iadd':G.inv.misc.push({name:v.trim(),desc:''});break;
+        case'irem':{const i=G.inv.misc.findIndex(x=>x.name===v.trim());if(i>=0)G.inv.misc.splice(i,1);break}
+        case'age':p.age+=parseInt(v);break;
+        case'loc':break; // map hint only
+      }
+    });
+    UI.updHdr();UI.updPanel();Inv.render();
+    if(mq.length)Story.procMQ(mq,0);
+    
+    // 处理书信
+    if(letters && letters.length) {
+      letters.forEach(l => {
+        const d=document.createElement('div');
+        d.className='se se-letter';
+        d.innerHTML=`<div class="sender">✉ 来自：${l.sender}</div><div class="content">${l.content.replace(/\n/g,'<br>')}</div>`;
+        $('slog').appendChild(d);
+        d.scrollIntoView({behavior:'smooth',block:'end'});
+        G.log.push({t:`[书信] ${l.sender}: ${l.content.slice(0,50)}...`,c:'letter',n:G.turn});
+      });
+    }
+    // 处理弹窗/弹幕
+    if(toasts && toasts.length) {
+      toasts.forEach(t => {
+        UI.toast(t.msg, t.type === '活动' ? 'event' : 'sys');
+      });
+    }
+  },
+
+  procMQ:(q,i)=>{
+    if(i>=q.length)return;const c=q[i];
+    if(G.chars.find(x=>x.name===c.name)){Story.procMQ(q,i+1);return}
+    G._pm=c;G._mq=q;G._mi=i;
+    $('mmn').textContent=c.name;
+    $('mmd').textContent=`${c.id} · 武魂：${c.wp||'无'} · ${c.per}`;
+    $('mmd2').textContent=`"${c.imp}"`;
+    $('mmod').classList.add('ac');
+  },
+
+  /* --- 发送动作到API --- */
+  send:async(act)=>{
+    if(G.gen)return;
+    const inp=act||$('si').value.trim();if(!inp)return;
+    $('si').value='';
+    G._choices=[];$('cpop').innerHTML='';$('cpop').classList.remove('open');$('ctri').classList.remove('open');$('ctri').textContent='△';
+    G.gen=true;$('story-send').disabled=true;
+    Story.add('▸ '+inp,'sys');
+    G.ctx.push({role:'user',content:inp});
+    const cmsgs=G.ctx.slice(-40);
+    const msgs=[{role:'system',content:PB.sys()},...cmsgs];
+    Story.loading();
+    try{
+      const res=await API.call(msgs);Story.unload();
+      const {nar,ch,opts,letters,toasts}=Story.parse(res);
+      if(nar)Story.add(nar);
+      Story.apply(ch, letters, toasts);
+      if(opts.length)Story.setChoices(opts);
+      G.ctx.push({role:'assistant',content:res});G.turn++;
+    }catch(e){Story.unload();Story.add('⚠ '+e.message,'sys')}
+    G.gen=false;$('story-send').disabled=false;
+  },
+
+  /* --- 设置选项到△折叠面板并自动展开 --- */
+  setChoices:(opts)=>{
+    G._choices=opts;
+    const labels=['A','B','C','D'];
+    $('cpop').innerHTML='<div class="ctitle">— 剧情选项 —</div>'+
+      opts.map((o,i)=>`<button class="cbtn" onclick="Story.pickChoice(${i})"><span class="clab">${labels[i]||i+1}.</span>${o}</button>`).join('');
+    // 自动展开选项面板
+    $('cpop').classList.add('open');
+    $('ctri').classList.add('open');
+    $('ctri').textContent='▽';
+    $('ctri').style.color='var(--gold)';
+    $('ctri').title=`${opts.length}个选项`;
+  },
+
+  pickChoice:(i)=>{
+    if(!G._choices[i])return;
+    // 收起选项面板
+    $('cpop').classList.remove('open');$('ctri').classList.remove('open');$('ctri').textContent='△';
+    Story.send(G._choices[i]);
+  },
+
+  /* --- 开始游戏剧情 --- */
+  start:async()=>{
+    if(!G.ep||!G.mod){Story.add('⚠ 请先在封面「连接API」配置后再开始游戏。可在底部「设置」中重新配置。','sys');return}
+    G.gen=true;Story.loading();
+    G.ctx=[{role:'user',content:'开始游戏，进行武魂觉醒仪式。请严格按输出格式生成800字以上叙事+全部变动标记+4个【选项A/B/C/D】。'}];
+    const msgs=[{role:'system',content:PB.awaken(G.player)},G.ctx[0]];
+    try{
+      const res=await API.call(msgs);Story.unload();
+      const {nar,ch,opts,letters,toasts}=Story.parse(res);
+      if(nar)Story.add(nar);
+      Story.apply(ch, letters, toasts);
+      if(opts.length)Story.setChoices(opts);
+      G.ctx.push({role:'assistant',content:res});G.turn=1;
+    }catch(e){Story.unload();Story.add('⚠ '+e.message+'\n请检查API连接设置。','sys')}
+    G.gen=false;
+  }
+};
+
+/* ========== GAME ========== */
+const Game={
+  create:()=>{
+    const gd=document.querySelector('input[name="gd"]:checked').value;
+    let nm=$('cname').value.trim();
+    if(!nm){const s=pick(SD.sn);nm=s+(gd==='男'?pick(SD.mn):pick(SD.fn))}
+    let fam,per,bp,selWp=null;
+    if(G.cmode==='custom'){fam=$('cfam').value||pick(SD.fam);per=$('cper').value||pick(SD.per);bp=$('cbp').value||pick(SD.bp)}
+    else if(G.cmode==='full'){
+      fam=$('cfam2').value.trim()||pick(SD.fam);
+      per=$('cper2').value.trim()||pick(SD.per);
+      bp=$('cbp2').value.trim()||pick(SD.bp);
+      // 从武魂库选择
+      const wpName=$('cwp-sel').value;
+      if(wpName){
+        const w=WpLib.getAll().find(x=>x.name===wpName);
+        if(w)selWp=w;
+      }
+    }
+    else{fam=pick(SD.fam);per=pick(SD.per);bp=pick(SD.bp)}
+    let gold=0, silver=0, copper=0;
+    let startItems = [];
+    switch(fam) {
+      case '贫寒猎户':
+        copper=50;
+        startItems.push(
+          {name:'粗糙的猎弓',desc:'父亲用过的旧弓，弦已有些松弛'},
+          {name:'兽皮衣',desc:'勉强御寒的粗制皮衣'},
+          {name:'磨刀石',desc:'用来磨猎刀'},
+          {name:'干肉条',desc:'风干的野味，能撑几天'}
+        ); break;
+      case '普通农户':
+        copper=30;
+        startItems.push(
+          {name:'草帽',desc:'母亲编的遮阳草帽'},
+          {name:'粗粮饼',desc:'顶饱但难以下咽'},
+          {name:'镰刀',desc:'收割庄稼用的'},
+          {name:'一袋谷种',desc:'来年播种的希望'}
+        ); break;
+      case '镇上商贩':
+        gold=0; silver=2; copper=50;
+        startItems.push(
+          {name:'小算盘',desc:'精打细算的铜算盘'},
+          {name:'账本',desc:'记录着家中生意'},
+          {name:'商队通行证',desc:'可随商队出入城镇'},
+          {name:'几包杂货',desc:'准备拿去卖的日用品'}
+        ); break;
+      case '铁匠之家':
+        gold=0; silver=3; copper=30;
+        startItems.push(
+          {name:'小铁锤',desc:'父亲打造的练习锤，沉甸甸的'},
+          {name:'铁坯',desc:'一块尚未锻造的铁'},
+          {name:'耐火手套',desc:'打铁用的厚皮手套'},
+          {name:'风箱图纸',desc:'简易风箱的构造图'}
+        ); break;
+      case '药草世家':
+        gold=0; silver=5; copper=20;
+        startItems.push(
+          {name:'基础草药包',desc:'常见的疗伤草药若干'},
+          {name:'药典残页',desc:'记载着基础药理知识'},
+          {name:'研药钵',desc:'研磨药材的石臼'},
+          {name:'一株灵草',desc:'家中珍藏的稀有草药'}
+        ); break;
+      case '小贵族':
+        gold=2; silver=10; copper=0;
+        startItems.push(
+          {name:'华丽服饰',desc:'彰显身份的锦缎衣裳'},
+          {name:'马车令牌',desc:'可租用城内马车'},
+          {name:'家徽玉佩',desc:'刻有家族纹路的玉佩'},
+          {name:'推荐信',desc:'可拜访当地权贵的介绍信'}
+        ); break;
+      case '没落宗门弟子':
+        gold=0; silver=5; copper=40;
+        startItems.push(
+          {name:'残破的剑谱',desc:'祖先留下的残缺剑法'},
+          {name:'宗门令牌',desc:'已褪色但仍被珍视的身份象征'},
+          {name:'旧魂导器',desc:'宗门遗留的损坏魂导器'},
+          {name:'先祖遗训',desc:'一张泛黄的纸条，写着复兴宗门'}
+        ); break;
+      case '孤儿':
+        copper=10;
+        startItems.push(
+          {name:'破旧的毯子',desc:'唯一的保暖物，已打满补丁'},
+          {name:'半个馒头',desc:'不知道放了多久，硬邦邦的'},
+          {name:'捡来的短棍',desc:'防身用的木棍'},
+          {name:'一块碎银',desc:'不知谁遗落的，视若珍宝'}
+        ); break;
+      case '军伍之家':
+        gold=0; silver=4; copper=60;
+        startItems.push(
+          {name:'木剑',desc:'父亲用过的训练剑，磨得发亮'},
+          {name:'军用干粮',desc:'硬但耐储存的压缩粮'},
+          {name:'军牌',desc:'父亲的退伍军牌，刻着名字'},
+          {name:'基础军体拳谱',desc:'军中流传的入门拳法'}
+        ); break;
+      case '书香门第':
+        gold=0; silver=6; copper=10;
+        startItems.push(
+          {name:'笔墨纸砚',desc:'基础文房四宝，品质上乘'},
+          {name:'古籍',desc:'一本泛黄的斗罗大陆志'},
+          {name:'魂师通鉴',desc:'记载着魂师等级体系的书籍'},
+          {name:'家书',desc:'长辈的谆谆教诲'}
+        ); break;
+      case '镖局之后':
+        gold=0; silver=4; copper=50;
+        startItems.push(
+          {name:'护身符',desc:'母亲求来的平安符'},
+          {name:'短刀',desc:'防身之用，刀刃锋利'},
+          {name:'镖局路引',desc:'可走镖局开辟的安全路线'},
+          {name:'绳索与飞爪',desc:'镖师标配的攀爬工具'}
+        ); break;
+      case '渔家子弟':
+        copper=40;
+        startItems.push(
+          {name:'小鱼叉',desc:'捕鱼工具，磨得尖锐'},
+          {name:'蓑衣',desc:'遮风挡雨的草编蓑衣'},
+          {name:'渔网',desc:'父亲修补过多次的旧渔网'},
+          {name:'海贝壳',desc:'海边捡的漂亮贝壳，不值钱但好看'}
+        ); break;
+      case '流浪艺人':
+        copper=20;
+        startItems.push(
+          {name:'旧乐器',desc:'能吹出简单曲子的竹笛'},
+          {name:'杂耍球',desc:'三个彩色杂耍球'},
+          {name:'破旧戏服',desc:'曾经华丽如今褪色的戏服'},
+          {name:'江湖地图残片',desc:'不知从哪捡来的半张地图'}
+        ); break;
+      default: copper=20; startItems.push({name:'普通衣物',desc:'一身干净的粗布衣裳'});
+    }
+    // 所有家世都加一件基础衣物
+    startItems.unshift({name:'基础衣物',desc: fam==='小贵族'?'锦衣华服': fam==='孤儿'?'打满补丁的旧衣':'一身粗布衣裳'});
+    G.player={name:nm,gender:gd,age:6,bp,fam,per,wp:'',wpQ:'',inn:0,lv:0,sp:0,
+      st:{con:0,spr:0,com:0,cha:0,lck:0},mn:{g:gold,s:silver,c:copper},
+      rings:[],skills:[],bones:[],av:G._av||'',selWp:selWp};
+    G.inv={misc:startItems,bones:[],rings:[]};
+    if(Math.random()<.05)G.inv.misc.push({name:'低级草药',desc:'路边采的常见草药'});
+    if(Math.random()<.02)G.inv.misc.push({name:'暗器残图',desc:'一张模糊的暗器图纸'});
+    G.chars=[];G.log=[];G.hist=[];G.ctx=[];G.turn=0;G._choices=[];
+    G.map=['斗罗大陆'];
+    const findP=(node,target,path)=>{for(const k in node){if(k===target)return[...path,k];if(node[k].c){const r=findP(node[k].c,target,[...path,k]);if(r)return r}}return null};
+    const loc=findP(SD.mt['斗罗大陆'].c,bp,['斗罗大陆']);
+    if(loc)G.map=loc;
+    UI.go('game');UI.updHdr();UI.updPanel();Map.render();Inv.render();
+    $('slog').innerHTML='';$('cpop').innerHTML='';
+    Story.start();
+  },
+  meet:(accept)=>{
+    $('mmod').classList.remove('ac');
+    if(accept&&G._pm){
+      G.chars.push(G._pm);UI.renderChars();
+      Story.add(`✦ 结识了 ${G._pm.name}（${G._pm.id}）— "${G._pm.imp}"`, 'sys');
+    }
+    if(G._mq)Story.procMQ(G._mq,G._mi+1);
+  }
+};
+
+/* ========== UI ========== */
+const UI={
+  go:(id)=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active')},
+  goLoad:()=>{UI.go('game');UI.tab('settings')},
+  cmode:(m)=>{G.cmode=m;document.querySelectorAll('.mtog .btn').forEach(b=>b.classList.toggle('ac',b.dataset.m===m));$('cfields').classList.toggle('hid',m!=='custom');$('cfields-full').classList.toggle('hid',m!=='full');if(m==='full')WpLib.refreshSelect()},
+  openWpLib:()=>{WpLib.render('');if($('wplib-search'))$('wplib-search').value='';$('wplib-mod').classList.add('ac')},
+  avUpload:(e)=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{$('avp').src=ev.target.result;$('avp').classList.remove('hid');$('avpl').classList.add('hid');G._av=ev.target.result};r.readAsDataURL(f)},
+
+  tab:(t)=>{
+    document.querySelectorAll('.tp').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.ni').forEach(n=>n.classList.remove('ac'));
+    $('tab-'+t).classList.add('active');
+    document.querySelector(`.ni[data-t="${t}"]`).classList.add('ac');
+    if(t==='panel')UI.updPanel();if(t==='chars')UI.renderChars();
+    if(t==='map')Map.render();if(t==='inv')Inv.render();
+    if(t==='history')UI.renderHist();if(t==='settings')UI.renderSet();
+  },
+
+  toast:(msg,type='info')=>{
+    const c=$('toast-container');if(!c)return;
+    const d=document.createElement('div');
+    const colors={event:'var(--gold)',sys:'var(--red)',info:'var(--txt2)'};
+    const bgColors={event:'rgba(201,168,76,0.15)',sys:'rgba(192,57,43,0.15)',info:'rgba(0,0,0,0.5)'};
+    d.style.cssText=`background:${bgColors[type]||bgColors.info};border:1px solid ${colors[type]||colors.info};color:${colors[type]||colors.info};padding:10px 16px;border-radius:4px;text-align:center;font-size:0.85em;animation:toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;box-shadow:0 4px 12px rgba(0,0,0,0.5);pointer-events:auto;backdrop-filter:blur(4px);`;
+    d.textContent=msg;c.appendChild(d);
+    setTimeout(()=>{if(d.parentNode)d.remove()},3000);
+  },
+  togChoices:()=>{
+    if(!G._choices.length)return;
+    const pop=$('cpop'),tri=$('ctri');
+    const open=pop.classList.toggle('open');
+    tri.classList.toggle('open',open);
+    tri.textContent=open?'▽':'△';
+  },
+
+  updHdr:()=>{
+    const p=G.player;if(!p)return;
+    const av=$('hav');if(p.av){av.src=p.av;av.classList.remove('hid')}else av.classList.add('hid');
+    $('hnm').textContent=p.name;
+    $('hlv').textContent=p.lv>0?rkTitle(p.lv):'未觉醒';
+    $('hsl').textContent=p.wp?`武魂·${p.wp}`:'';
+  },
+
+  updPanel:()=>{
+    const p=G.player;if(!p)return;
+    const av=$('pav');if(p.av){av.src=p.av;av.classList.remove('hid')}else av.classList.add('hid');
+    $('pid').innerHTML=[
+      ['姓名',p.name],['性别',p.gender],['年龄',p.age+'岁'],['性格',p.per],['家世',p.fam],
+      ['出生地',p.bp],['武魂',(p.wp||'未觉醒')+(p.wpQ?' ('+p.wpQ+')':'')],
+      ['先天魂力',p.inn?p.inn+'级':'未测'],['当前等级',p.lv?rkTitle(p.lv):'未觉醒'],
+      ['魂力进度',`${p.sp||0}/100`]
+    ].map(([l,v])=>`<div class="r"><span class="lb">${l}</span><span class="vl">${v}</span></div>`).join('');
+
+    $('pat').innerHTML=[
+      ['体质',p.st.con],['精神力',p.st.spr],['悟性',p.st.com],['魅力',p.st.cha],
+      ['运气',p.st.lck],['金魂币',p.mn.g],['银魂币',p.mn.s],['铜魂币',p.mn.c]
+    ].map(([n,v])=>`<div class="ai"><div class="an">${n}</div><div class="av2">${v}</div></div>`).join('');
+
+    const rc={'白':'wh','黄':'ye','紫':'pu','黑':'bk','红':'re','金':'gl'};
+    let rh='';for(let i=0;i<9;i++){
+      if(i<p.rings.length){const r=p.rings[i];const cc=Object.entries(rc).find(([k])=>r.color.includes(k));
+        rh+=`<div class="rr ${cc?cc[1]:'wh'}" title="${r.yrs}年${r.beast}：${r.skill}">${i+1}</div>`}
+      else rh+=`<div class="rr em">${i+1}</div>`}
+    $('prg').innerHTML=rh;
+
+    $('psk').innerHTML=p.skills.length?p.skills.map(s=>`<div class="ski"><div class="skn">第${s.ring}魂技·${s.name}</div><div class="skd">${s.desc}</div></div>`).join(''):'<div class="emp">尚无魂技</div>';
+    $('pbn').innerHTML=p.bones.length?p.bones.map(b=>`<div class="ski"><div class="skn">${b.part}·${b.name}</div><div class="skd">${b.skill}${b.desc?'：'+b.desc:''}</div></div>`).join(''):'<div class="emp">尚无魂骨</div>';
+  },
+
+  _charSel:{},
+
+  renderChars:()=>{
+    const l=$('clist'),e=$('noc'),bar=$('char-bar');
+    if(!G.chars.length){l.innerHTML='';e.style.display='block';bar.style.display='none';return}
+    e.style.display='none';
+    bar.style.display='flex';
+    const selCount=Object.values(UI._charSel).filter(Boolean).length;
+    $('char-selcount').textContent=`已选${selCount}人`;
+    $('char-selall').checked=selCount===G.chars.length&&G.chars.length>0;
+
+    l.innerHTML=G.chars.map((c,i)=>`<div class="cc2" onclick="UI.charDet(${i})">
+      <input type="checkbox" class="cchk" ${UI._charSel[i]?'checked':''} onclick="event.stopPropagation();UI.charTogSel(${i},this.checked)">
+      <div class="cdel" onclick="event.stopPropagation();UI.charDel(${i})" title="删除${c.name}">✕</div>
+      <div class="ca" onclick="event.stopPropagation();UI.charAvUp(${i})">
+        ${c.av?`<img src="${c.av}">`:'👤'}
+        <div class="avol">换头像</div>
+      </div>
+      <div class="ci">
+        <div class="cn">${c.name} <span style="font-size:.75em;color:var(--txt3)">${c.wp&&c.wp!=='未知'&&c.wp!=='无'?'·'+c.wp:''}</span></div>
+        <div class="cd">${c.id} | ${c.per} | ${c.lv?c.lv+'级':'等级未知'}</div>
+        <div class="cm">"${c.cimp}"</div>
+        <div class="fb"><div class="fl" style="width:${(c.fav/150)*100}%"></div></div>
+        <div style="font-size:.65em;color:var(--txt3);margin-top:.15em">好感 ${c.fav}/150</div>
+      </div>
+    </div>`).join('');
+  },
+
+  charTogSel:(i,checked)=>{
+    UI._charSel[i]=checked;
+    const selCount=Object.values(UI._charSel).filter(Boolean).length;
+    $('char-selcount').textContent=`已选${selCount}人`;
+    $('char-selall').checked=selCount===G.chars.length&&G.chars.length>0;
+  },
+
+  charSelAll:(checked)=>{
+    G.chars.forEach((_,i)=>{UI._charSel[i]=checked});
+    UI.renderChars();
+  },
+
+  charDel:(i)=>{
+    const c=G.chars[i];
+    if(!confirm(`确定删除「${c.name}」？`))return;
+    G.chars.splice(i,1);
+    UI._charSel={};
+    UI.renderChars();
+  },
+
+  charDelSel:()=>{
+    const indices=Object.entries(UI._charSel).filter(([_,v])=>v).map(([k])=>parseInt(k)).sort((a,b)=>b-a);
+    if(!indices.length){alert('请先勾选要删除的人物');return}
+    const names=indices.map(i=>G.chars[i]?.name).filter(Boolean);
+    if(!confirm(`确定删除以下${names.length}人？\n${names.join('、')}`))return;
+    indices.forEach(i=>{G.chars.splice(i,1)});
+    UI._charSel={};
+    UI.renderChars();
+  },
+
+  charAvUp:(i)=>{
+    const inp=$('cavf');
+    inp.onchange=e=>{
+      const f=e.target.files[0];if(!f)return;
+      const r=new FileReader();r.onload=ev=>{G.chars[i].av=ev.target.result;UI.renderChars()};r.readAsDataURL(f);
+    };
+    inp.click();
+  },
+
+  charDet:(i)=>{
+    const c=G.chars[i];if(!c)return;
+    const acts=['聊天','切磋','赠礼','求教','邀约','交易','拜访','比试','结拜','告别','打探','协助'];
+    const favThresholds=[0,10,15,20,30,40,50,60,70,80,100,120];
+    // Build relationship graph
+    const others=G.chars.filter(x=>x.name!==c.name);
+    const relGraph=others.length?others.map(x=>`<div style="display:flex;align-items:center;gap:.4em;padding:.25em 0;cursor:pointer" onclick="$('cdmod').classList.remove('ac');UI.charDet(${G.chars.indexOf(x)})">
+      <div style="width:24px;height:24px;border-radius:50%;border:1px solid var(--goldD);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.7em">${x.av?`<img src="${x.av}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`:'👤'}</div>
+      <span style="color:var(--gold);font-size:.78em">${x.name}</span>
+      <span style="color:var(--txt3);font-size:.7em">← ${c.name} 的关系网 →</span>
+    </div>`).join(''):'<div style="color:var(--txt3);font-size:.8em">暂无其他关联人物</div>';
+
+    $('cdbox').innerHTML=`<button class="mc" onclick="$('cdmod').classList.remove('ac')">&times;</button>
+    <div style="display:flex;gap:.8em;margin-bottom:.8em">
+      <div style="width:70px;height:70px;border-radius:50%;border:2px solid var(--goldD);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:2.2em;flex-shrink:0;overflow:hidden">
+        ${c.av?`<img src="${c.av}" style="width:100%;height:100%;object-fit:cover">`:'👤'}
+      </div>
+      <div>
+        <h3 style="color:var(--gold)">${c.name}</h3>
+        <div style="font-size:.82em;color:var(--txt2)">${c.id}</div>
+        <div style="font-size:.82em;color:var(--txt2)">武魂：${c.wp||'无'} | ${c.inn?'先天'+c.inn+'级':''} ${c.lv?'当前'+c.lv+'级':''}</div>
+        <div style="font-size:.8em;color:var(--txt3)">性格：${c.per}</div>
+        <div style="font-size:.8em;margin-top:.2em">
+          <span style="color:var(--txt2)">好感度：</span>
+          <span style="color:var(--gold)">${c.fav}</span><span style="color:var(--txt3)">/150</span>
+          <div style="width:100px;height:5px;background:var(--bg2);border-radius:3px;margin-top:.2em;overflow:hidden">
+            <div style="height:100%;width:${(c.fav/150)*100}%;background:linear-gradient(90deg,var(--redD),var(--gold));border-radius:3px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--bg4);padding:.6em;border-radius:3px;margin-bottom:.6em;font-size:.82em">
+      <div style="color:var(--txt2)">初印象：<span style="color:var(--txt3)">"${c.imp}"</span></div>
+      <div style="color:var(--txt2);margin-top:.25em">现印象：<span style="color:var(--txt)">"${c.cimp}"</span></div>
+    </div>
+    <div style="margin-bottom:.6em">
+      <div style="font-size:.82em;color:var(--gold);margin-bottom:.4em;border-bottom:1px solid var(--bdr);padding-bottom:.2em">互动（共12项，好感越高解锁越多）</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.3em">
+        ${acts.map((a,j)=>{const need=favThresholds[j]||0;const ok=c.fav>=need;
+          return`<button class="btn sm${ok?'':' dis'}" style="font-size:.75em" ${ok?`onclick="$('cdmod').classList.remove('ac');Story.send('我想找${c.name}${a}')"`:''}  title="${ok?'':'需要好感'+need}">${a}</button>`}).join('')}
+      </div>
+    </div>
+    <div style="background:var(--bg4);padding:.6em;border-radius:3px">
+      <div style="font-size:.82em;color:var(--gold);margin-bottom:.4em;border-bottom:1px solid var(--bdr);padding-bottom:.2em">人际关系网</div>
+      ${relGraph}
+    </div>`;
+    $('cdmod').classList.add('ac');
+  },
+
+  togHist:()=>{const c=$('hcon');c.classList.toggle('open');$('har').textContent=c.classList.contains('open')?'▲':'▼'},
+  renderHist:()=>{$('hcon').innerHTML=G.hist.length?G.hist.map(h=>`<div class="he"><span class="tn">第${h.n}回合</span><br>${h.t}</div>`).join(''):'<div class="emp">暂无</div>'},
+
+  renderSet:()=>{
+    $('tab-settings').innerHTML=`
+    <div class="sg"><h3>API连接</h3>
+      <div class="sti"><span class="lb">状态</span><span style="color:${G.ep?'var(--gold)':'var(--red)'}">${G.ep?'已连接 · '+G.mod:'未连接'}</span></div>
+      <div style="margin-top:.4em"><button class="btn sm" onclick="UI.go('api-setup')">配置API</button></div>
+    </div>
+    <div class="sg"><h3>存档管理</h3><div class="ss">${[1,2,3].map(i=>{
+      const d=localStorage.getItem('dl_s'+i);let inf='空存档';
+      if(d)try{const j=JSON.parse(d);inf=`${j.player.name} · ${rkTitle(j.player.lv)} · 第${j.turn}回合`;const dt=new Date(j.ts);inf+=` · ${dt.getMonth()+1}/${dt.getDate()}`}catch(e){}
+      return`<div class="sv"><span class="si2">存档${i}：${inf}</span><div class="sa"><button class="btn sm" onclick="Save.save(${i})">保存</button><button class="btn sm${d?'':' dis'}" onclick="Save.load(${i})">读取</button></div></div>`}).join('')}
+    </div></div>
+    <div class="sg"><h3>字体大小</h3>
+      <input type="range" style="width:100%;accent-color:var(--gold)" min="12" max="22" value="${G.fs}" oninput="document.documentElement.style.setProperty('--fs',this.value+'px');G.fs=+this.value">
+      <div style="text-align:center;font-size:.8em;color:var(--txt3)">${G.fs}px</div>
+    </div>
+    <div class="sg"><h3>背景音乐</h3>
+      <div style="display:flex;gap:.4em"><button class="btn sm" onclick="$('muf').click()">上传音乐</button><button class="btn sm" onclick="const a=$('bgm');a.paused?a.play().catch(()=>{}):a.pause()">播放/暂停</button></div>
+    </div>
+    <div class="sg"><h3>主题（5种）</h3><div class="tho">
+      <div class="td${G.theme==='dark'?' ac':''}" onclick="UI.setTh('dark')" title="暗黑古风"></div>
+      <div class="ti${G.theme==='ink'?' ac':''}" onclick="UI.setTh('ink')" title="清新水墨"></div>
+      <div class="tc${G.theme==='cyber'?' ac':''}" onclick="UI.setTh('cyber')" title="赛博玄幻"></div>
+      <div class="tb${G.theme==='blood'?' ac':''}" onclick="UI.setTh('blood')" title="血色修罗"></div>
+      <div class="tj${G.theme==='jade'?' ac':''}" onclick="UI.setTh('jade')" title="翠玉幽林"></div>
+    </div></div>`;
+  },
+  setTh:(t)=>{G.theme=t;document.body.className=t==='dark'?'':'t-'+t;UI.renderSet()}
+};
+
+/* ========== MAP (圆形节点) ========== */
+const Map={
+  render:()=>{
+    $('mbc').innerHTML=G.map.map((l,i)=>{
+      const cur=i===G.map.length-1;
+      return(i>0?'<span class="sep">›</span>':'')+(cur?`<span class="cur">${l}</span>`:`<span onclick="Map.nav(${i})">${l}</span>`);
+    }).join('');
+    let node=SD.mt;for(const l of G.map){if(node[l])node=node[l].c||{};else break}
+    const keys=Object.keys(node);
+    const ring=$('mring');
+    $('mpop').classList.remove('open');
+    if(!keys.length){ring.innerHTML='<div class="emp" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">此地无更多区域可探索</div>';return}
+    const cx=50,cy=50,radius=keys.length<=4?28:keys.length<=8?34:37;
+    ring.innerHTML=keys.map((k,i)=>{
+      const angle=(2*Math.PI*i/keys.length)-Math.PI/2;
+      const x=cx+radius*Math.cos(angle)-5;
+      const y=cy+radius*Math.sin(angle)-5;
+      const d=node[k],tp=d.t||'区域';
+      const here=G.map[G.map.length-1]===k;
+      return`<div class="mn${here?' here':''}" style="left:${x}%;top:${y}%" onclick="Map.click('${k}')"><div class="nm">${k}</div><div class="tp2">${tp}</div></div>`;
+    }).join('')+`<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:.25"></div>`;
+    if(G.mapBg){$('mwrap').style.backgroundImage=`url(${G.mapBg})`;$('mwrap').style.backgroundSize='cover'}
+  },
+  click:(k)=>{
+    let node=SD.mt;for(const l of G.map){if(node[l])node=node[l].c||{};else break}
+    const d=node[k];if(!d)return;
+    const hasC=d.c&&Object.keys(d.c).length>0;
+    $('mpop').innerHTML=`<h4>${k}</h4>
+      <p class="mpi">${d.t}${hasC?' · '+Object.keys(d.c).length+'个子区域':' · 终点区域'}</p>
+      <div class="mpa">
+        ${hasC?`<button class="btn sm pri" onclick="Map.enter('${k}')">进入查看</button>`:''}
+        <button class="btn sm" onclick="Map.goStory('${k}')">前往此处</button>
+        <button class="btn sm" onclick="$('mpop').classList.remove('open')">关闭</button>
+      </div>`;
+    $('mpop').classList.add('open');
+  },
+  enter:(k)=>{G.map.push(k);$('mpop').classList.remove('open');Map.render()},
+  nav:(i)=>{G.map=G.map.slice(0,i+1);$('mpop').classList.remove('open');Map.render()},
+  goStory:(k)=>{$('mpop').classList.remove('open');UI.tab('story');Story.send('前往'+k+'探索')},
+  bgUp:(e)=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{G.mapBg=ev.target.result;Map.render()};r.readAsDataURL(f)}
+};
+
+/* ========== INVENTORY ========== */
+const Inv={
+  ct:'misc',
+  tab:(t)=>{
+    Inv.ct=t;
+    document.querySelectorAll('.itb').forEach(b=>{
+      const map={misc:'杂物',bones:'魂骨',rings:'魂环'};
+      b.classList.toggle('ac',b.textContent===map[t]);
+    });
+    Inv.render();
+  },
+  render:()=>{
+    const items=G.inv[Inv.ct]||[];
+    if(!items.length){$('ilist').innerHTML='';$('iemp').style.display='block';return}
+    $('iemp').style.display='none';
+    const ic={misc:'📦',bones:'🦴',rings:'💍'};
+    $('ilist').innerHTML=items.map((it,i)=>`<div class="ii"><div class="ic">${ic[Inv.ct]}</div><div class="iif"><div class="iin">${it.name}</div><div class="iid">${it.desc||''}</div></div>${Inv.ct==='bones'?`<button class="btn sm${it.eq?' dis':''}" onclick="Inv.eqBone(${i})">${it.eq?'已装备':'装备'}</button>`:''}</div>`).join('');
+  },
+  eqBone:(i)=>{
+    const b=G.inv.bones[i];if(!b||b.eq)return;const p=G.player;
+    if(p.bones.length>=6){alert('最多装备6块魂骨');return}
+    if(b.data&&p.bones.find(x=>x.part===b.data.part)){alert('该部位已有魂骨');return}
+    b.eq=true;if(b.data&&!p.bones.find(x=>x.name===b.data.name))p.bones.push(b.data);
+    Inv.render();UI.updPanel();
+  }
+};
+
+/* ========== SAVE ========== */
+const Save={
+  save:(s)=>{
+    const d={player:G.player,chars:G.chars,log:G.log.slice(-60),hist:G.hist.slice(-120),inv:G.inv,map:G.map,turn:G.turn,ctx:G.ctx.slice(-30),theme:G.theme,fs:G.fs,ts:Date.now()};
+    try{localStorage.setItem('dl_s'+s,JSON.stringify(d));alert('存档成功');UI.renderSet()}catch(e){alert('存档失败：'+e.message)}
+  },
+  load:(s)=>{
+    try{
+      const raw=localStorage.getItem('dl_s'+s);if(!raw){alert('空存档');return}const d=JSON.parse(raw);
+      G.player=d.player;G.chars=d.chars||[];G.log=d.log||[];G.hist=d.hist||[];
+      G.inv=d.inv||{misc:[],bones:[],rings:[]};G.map=d.map||['斗罗大陆'];
+      G.turn=d.turn||0;G.ctx=d.ctx||[];G._choices=[];
+      if(d.theme)UI.setTh(d.theme);
+      if(d.fs){G.fs=d.fs;document.documentElement.style.setProperty('--fs',d.fs+'px')}
+      UI.go('game');UI.updHdr();UI.updPanel();Map.render();Inv.render();
+      // Restore story log
+      $('slog').innerHTML='';
+      G.log.forEach(en=>{const dv=document.createElement('div');dv.className='se '+(en.c||'');dv.innerHTML=en.t.replace(/\n/g,'<br>');$('slog').appendChild(dv)});
+      // Restore choices from last assistant message
+      $('cpop').innerHTML='';
+      if(G.ctx.length){const last=G.ctx[G.ctx.length-1];if(last.role==='assistant'){const{opts}=Story.parse(last.content);if(opts.length)Story.setChoices(opts)}}
+      alert('读取成功');
+    }catch(e){alert('读取失败：'+e.message)}
+  }
+};
+
+/* ========== 武魂库 ========== */
+const WpLib={
+  // 预置武魂库
+    _default:[
+    {name:'玄冰剑',type:'器武魂',quality:'高级',desc:'寒气逼人的冰属性长剑，攻击附带冰冻效果'},
+    {name:'烈焰锤',type:'器武魂',quality:'顶级',desc:'燃烧着赤红火焰的战锤，力量型武魂'},
+    {name:'紫雷弓',type:'器武魂',quality:'优秀',desc:'凝聚雷电之力的长弓，远程攻击极强'},
+    {name:'碎星刀',type:'器武魂',quality:'高级',desc:'锋利无匹的暗金色弯刀，速度型武魂'},
+    {name:'幻音琴',type:'器武魂',quality:'普通',desc:'能发出迷惑心神之音的古琴，辅助控制型'},
+    {name:'镇海盾',type:'器武魂',quality:'顶级',desc:'坚不可摧的玄铁盾牌，极致防御型武魂'},
+    {name:'影月扇',type:'器武魂',quality:'优秀',desc:'月光般银色折扇，兼具攻击与辅助'},
+    {name:'破晓枪',type:'器武魂',quality:'超级',desc:'黎明之光凝聚的金色长枪，光属性攻击'},
+    {name:'血月狼',type:'兽武魂',quality:'优秀',desc:'拥有血红双眸的暗影之狼，速攻型猛兽武魂'},
+    {name:'赤鳞蟒',type:'兽武魂',quality:'普通',desc:'通体赤红鳞片的巨蟒，力量与毒素并重'},
+    {name:'苍穹鹰',type:'兽武魂',quality:'高级',desc:'翱翔天际的金瞳巨鹰，风属性飞行武魂'},
+    {name:'玄武龟',type:'兽武魂',quality:'顶级',desc:'背负山岳的古龟，极致防御与水属性'},
+    {name:'九尾灵狐',type:'兽武魂',quality:'超级',desc:'拥有幻术天赋的灵狐，精神攻击极强'},
+    {name:'铁甲犀',type:'兽武魂',quality:'普通',desc:'坚甲如铁的独角犀牛，冲锋型力量武魂'},
+    {name:'幽冥蝠',type:'兽武魂',quality:'优秀',desc:'暗属性蝙蝠，擅长暗影潜行与音波攻击'},
+    {name:'火麒麟',type:'兽武魂',quality:'神级',desc:'传说中的神兽幼体，火焰与祥瑞并存'},
+    {name:'碧幽藤',type:'植物武魂',quality:'优秀',desc:'幽蓝色灵藤，可无限延伸缠绕控制敌人'},
+    {name:'噬魂花',type:'植物武魂',quality:'高级',desc:'漆黑花朵，能吸取对手魂力为己用'},
+    {name:'千叶莲',type:'植物武魂',quality:'普通',desc:'金色莲花，兼具治疗与防御辅助能力'},
+    {name:'铁刺荆棘',type:'植物武魂',quality:'废',desc:'坚硬如铁的荆棘藤蔓，攻防一体但成长极低'},
+    {name:'幻梦兰',type:'植物武魂',quality:'优秀',desc:'散发迷幻香气的兰花，精神控制类'},
+    {name:'冰晶竹',type:'植物武魂',quality:'高级',desc:'通体冰蓝的灵竹，冰属性远程攻击'},
+    {name:'烈焰之心',type:'元素武魂',quality:'顶级',desc:'纯火焰凝聚的心脏形武魂，毁灭之力'},
+    {name:'风暴之眼',type:'元素武魂',quality:'高级',desc:'凝聚狂风的球形武魂，风属性范围控制'},
+    {name:'雷霆之印',type:'元素武魂',quality:'优秀',desc:'雷电符文印记，瞬间爆发雷属性攻击'},
+    {name:'大地之盾',type:'元素武魂',quality:'普通',desc:'土属性防御武魂，可召唤岩石壁障'},
+    {name:'暗影之瞳',type:'特殊武魂',quality:'超级',desc:'暗黑色竖瞳，精神系探测与幻术武魂'},
+    {name:'时光沙漏',type:'特殊武魂',quality:'神级',desc:'极罕见的时间系武魂，可短暂影响时间流速'},
+    {name:'命运骰',type:'特殊武魂',quality:'高级',desc:'六面骰子武魂，效果随机但上限极高'},
+    {name:'星图卷轴',type:'特殊武魂',quality:'顶级',desc:'记载星象的卷轴，空间系辅助武魂'},
+  ],
+  _custom:[], // 用户自定义的武魂
+  _selected:null, // 当前选中的武魂
+
+  init:()=>{
+    // 从localStorage加载用户自定义武魂
+    try{
+      const saved=localStorage.getItem('dl_wplib_custom');
+      if(saved) WpLib._custom=JSON.parse(saved);
+    }catch(e){}
+    WpLib.refreshSelect();
+  },
+
+  getAll:()=>[...WpLib._default,...WpLib._custom],
+
+  saveCustom:()=>{
+    try{localStorage.setItem('dl_wplib_custom',JSON.stringify(WpLib._custom))}catch(e){}
+  },
+
+  refreshSelect:()=>{
+    const sel=$('cwp-sel');
+    if(!sel)return;
+    const all=WpLib.getAll();
+    const cur=sel.value;
+    sel.innerHTML='<option value="">不选择（随机生成）</option>'+
+      all.map((w,i)=>`<option value="${w.name}">${w.name}（${w.type}·${w.quality||'未知'}）</option>`).join('');
+    if(cur){sel.value=cur}
+    WpLib.updPreview();
+    sel.onchange=()=>WpLib.updPreview();
+  },
+
+  updPreview:()=>{
+    const sel=$('cwp-sel');
+    const pv=$('cwp-preview');
+    if(!sel||!pv)return;
+    const name=sel.value;
+    if(!name){pv.textContent='';WpLib._selected=null;return}
+    const w=WpLib.getAll().find(x=>x.name===name);
+    if(w){pv.textContent=`${w.type} · [${w.quality||'未知'}] · ${w.desc||'无描述'}`;WpLib._selected=w}
+    else{pv.textContent='';WpLib._selected=null}
+  },
+
+  render:(filter='')=>{
+    const all=WpLib.getAll();
+    const fl=filter.toLowerCase();
+    const filtered=fl?all.filter(w=>w.name.toLowerCase().includes(fl)||w.type.includes(fl)||(w.desc||'').toLowerCase().includes(fl)):all;
+    const icons={器武魂:'🗡️',兽武魂:'🐾',植物武魂:'🌿',元素武魂:'🔮',特殊武魂:'✨'};
+    const list=$('wplib-list');
+    if(!filtered.length){list.innerHTML='<div class="emp">没有找到匹配的武魂</div>';$('wplib-count').textContent='';return}
+    list.innerHTML=filtered.map((w,i)=>{
+      const isCustom=WpLib._custom.includes(w);
+      const isSelected=WpLib._selected&&WpLib._selected.name===w.name;
+      return`<div class="wpi${isSelected?' selected':''}" onclick="WpLib.select('${w.name.replace(/'/g,"\\'")}')">
+        <div class="wpi-icon">${icons[w.type]||'🔮'}</div>
+        <div class="wpi-info">
+          <div class="wpi-name">${w.name} <span style="font-size:.8em;color:var(--gold)">[${w.quality||'未知'}]</span></div>
+          <div class="wpi-type">${w.type}${isCustom?' · 自定义':''}</div>
+          <div class="wpi-desc">${w.desc||'无描述'}</div>
+        </div>
+        ${isCustom?`<div class="wpi-del" onclick="event.stopPropagation();WpLib.delCustom('${w.name.replace(/'/g,"\\'")}')" title="删除">✕</div>`:''}
+      </div>`}).join('');
+    $('wplib-count').textContent=`共 ${all.length} 个武魂（预置 ${WpLib._default.length} + 自定义 ${WpLib._custom.length}）· 显示 ${filtered.length} 个`;
+  },
+
+  filter:(v)=>WpLib.render(v),
+
+  select:(name)=>{
+    const w=WpLib.getAll().find(x=>x.name===name);
+    if(!w)return;
+    if(WpLib._selected&&WpLib._selected.name===name){
+      // 取消选择
+      WpLib._selected=null;
+    }else{
+      WpLib._selected=w;
+    }
+    // 更新下拉框
+    const sel=$('cwp-sel');
+    if(sel)sel.value=WpLib._selected?WpLib._selected.name:'';
+    WpLib.updPreview();
+    WpLib.render($('wplib-search')?$('wplib-search').value:'');
+  },
+
+  showAdd:()=>{$('wplib-add').classList.toggle('hid')},
+
+  addCustom:()=>{
+    const name=$('wpa-name').value.trim();
+    const type=$('wpa-type').value;
+    const quality=$('wpa-quality').value;
+    const desc=$('wpa-desc').value.trim();
+    if(!name){alert('请输入武魂名称');return}
+    if(WpLib.getAll().find(w=>w.name===name)){alert('武魂名称已存在');return}
+    if(SD.banned.includes(name)){alert('该武魂为禁止武魂，不可添加');return}
+    const w={name,type,quality,desc:desc||'用户自定义武魂'};
+    WpLib._custom.push(w);
+    WpLib.saveCustom();
+    WpLib.refreshSelect();
+    WpLib.render($('wplib-search')?$('wplib-search').value:'');
+    $('wpa-name').value='';$('wpa-desc').value='';
+    $('wplib-add').classList.add('hid');
+  },
+
+  delCustom:(name)=>{
+    if(!confirm(`确定删除自定义武魂「${name}」？`))return;
+    WpLib._custom=WpLib._custom.filter(w=>w.name!==name);
+    WpLib.saveCustom();
+    if(WpLib._selected&&WpLib._selected.name===name)WpLib._selected=null;
+    WpLib.refreshSelect();
+    WpLib.render($('wplib-search')?$('wplib-search').value:'');
+  }
+};
+
+/* ========== INIT ========== */
+API.load();
+WpLib.init();
+$('muf').addEventListener('change',e=>{const f=e.target.files[0];if(f){$('bgm').src=URL.createObjectURL(f);$('bgm').play().catch(()=>{})}});
+$('si').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();Story.send()}});
+</script>
+
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"75124c326cb447fe934cde04713ae013","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"75124c326cb447fe934cde04713ae013","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body></html>
